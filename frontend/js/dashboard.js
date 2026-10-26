@@ -12,7 +12,7 @@ export function renderDashboard(){
     panel('Choose an experiment. Keep a way back.',`<div class="profiles-grid">${[
       ['01','Cache-Oriented Gaming','Test the identified larger-cache domain when X3D topology is verified. Some games benefit; results vary.'],
       ['02','Frequency-Oriented Computing','Test a verified higher-frequency group for suitable workloads. Actual boost and throughput still vary.'],
-      ['03','Balanced / Scheduler Default','Preserve existing affinity. Give the Linux scheduler its current full choice of CPUs.'],
+      ['03','Balanced / Scheduler Default','Preserve existing affinity. Give the operating-system scheduler its current full choice of CPUs.'],
     ].map(([n,title,description])=>`<article class="profile"><span class="section-label">PROFILE ${n}</span><h3>${title}</h3><p>${description}</p><a class="text-button" href="#planner">Open affinity planner →</a></article>`).join('')}</div>`,'Affinity restrictions do not guarantee improved performance. Begin with a measured baseline.')+
     `<div class="notice neutral"><strong>You are in control.</strong> Read-only by default. Every affinity experiment requires a reviewed task list and confirmation. Original per-thread affinities are saved for restoration while this backend remains running.</div>`;
   updateUtilization();

@@ -17,7 +17,7 @@ def build():
         '--add-data',str(ROOT/'frontend')+os.pathsep+'frontend',
         '--paths',str(ROOT),'--collect-submodules','backend','--collect-submodules','uvicorn',
         '--hidden-import','psutil','--exclude-module','pytest','--exclude-module','tkinter']
-    if windows:command+=['--windowed']
+    if windows:command+=['--windowed','--icon',str(ROOT/'frontend/assets/brand-logo.png')]
     command+=[str(ROOT/'desktop.py')]
     subprocess.run(command,check=True)
 

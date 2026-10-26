@@ -1,4 +1,5 @@
 import os
+import json
 import subprocess
 import time
 
@@ -56,6 +57,25 @@ def test_profiles_create_list_delete(client):
     assert client.get('/api/profiles').json()['profiles'][0]['cpus']==[0,8]
     assert client.delete('/api/profiles/'+ident,headers=h).status_code==200
     assert client.get('/api/profiles').json()['profiles']==[]
+
+
+def test_language_preference_survives_new_session_without_enabling_affinity(tmp_path):
+    with TestClient(create_app(tmp_path),base_url='http://127.0.0.1:8000') as first:
+        assert first.get('/api/session').json()['preferences']['language'] is None
+        assert first.post('/api/preferences',json={'language':'ar'}).status_code==403
+        assert first.post('/api/preferences',json={'language':'ar'},headers=headers(first)).json()=={'language':'ar'}
+        assert first.post('/api/preferences',json={'language':'fr'},headers=headers(first)).status_code==422
+        assert first.post('/api/preferences',json={'language':'en','read_only':False},headers=headers(first)).status_code==422
+        assert first.get('/api/health').json()['read_only'] is True
+        assert first.get('/api/experiments').json()['affinity']==[]
+    assert json.loads((tmp_path/'preferences.json').read_text())=={'language':'ar'}
+    with TestClient(create_app(tmp_path),base_url='http://127.0.0.1:8000') as second:
+        session=second.get('/api/session').json()
+        assert session['preferences']=={'language':'ar'}
+        assert session['settings']['read_only'] is True
+        assert second.post('/api/preferences',json={'language':'en'},headers=headers(second)).status_code==200
+    with TestClient(create_app(tmp_path),base_url='http://127.0.0.1:8000') as third:
+        assert third.get('/api/session').json()['preferences']=={'language':'en'}
 
 
 def test_recording_real_owned_subprocess(client):

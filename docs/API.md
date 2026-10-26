@@ -1,5 +1,9 @@
 # Local API
 
+## Language preference 0.3.0
+
+`GET /api/session` includes `preferences.language` (`ar`, `en` or null before selection). `POST /api/preferences` accepts only `{"language":"ar"}` or `{"language":"en"}`, with the normal origin/token checks. The choice is stored locally and restored across desktop launches even when the loopback port changes. It never enables affinity experiments or changes OS scheduling. Read-only mode still starts enabled each backend session.
+
 ## Desktop / Windows 0.2.0 additions
 
 The desktop executable chooses an available loopback port and opens its URL automatically. Use that exact origin for any local client; port 8000 below is the source-development default. `GET /api/session` includes `desktop: true` when launched as the portable app. `POST /api/shutdown` requires the normal token/origin and refuses until all experiments are restored and recording has stopped.
@@ -16,7 +20,7 @@ Errors use `{"error":{"message":"..."}}`; invalid fields additionally return `fi
 
 | Method | Endpoint | Payload / result |
 | --- | --- | --- |
-| GET | `/api/session` | Startup session token, read-only and display settings |
+| GET | `/api/session` | Startup token, read-only/display settings and saved language preference |
 | GET | `/api/health` | Backend and read-only status |
 | GET | `/api/system` | OS, model, architecture, counts, virtualization |
 | GET | `/api/cpu/topology` | Cores, logical CPUs, cache domains, graph, feature states, X3D evidence, topology generation |
@@ -36,6 +40,7 @@ Errors use `{"error":{"message":"..."}}`; invalid fields additionally return `fi
 | POST | `/api/profiles` | `{name, cpus, generation, note?}` → saved profile; does not apply |
 | DELETE | `/api/profiles/{id}` | Delete a UUID profile |
 | POST | `/api/settings` | `{read_only, display_offset}`; offset 0 or 1; root cannot enable experiments |
+| POST | `/api/preferences` | `{language}`; `ar` or `en`; local interface preference only |
 
 `identity` is the decimal Linux process start-ticks string obtained from discovery. It must not be fabricated from a timestamp. Each preview also stores the thread's own start ticks and the leader's identity.
 

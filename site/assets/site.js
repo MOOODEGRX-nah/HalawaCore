@@ -1,3 +1,6 @@
+import {initLanguage,localize} from './i18n.js';
+import {initDownloadGuide} from './download-guide.js';
+initLanguage();initDownloadGuide();
 const repository='MOOODEGRX-nah/HalawaCore';
 const status=document.querySelector('#release-status');
 if(status){
@@ -26,4 +29,5 @@ if(status){
     status.classList.add('offline-note');
     document.querySelectorAll('[data-detail]').forEach(el=>el.textContent='افتح صفحة الإصدارات للتحقق من توفر ملف نظامك.');
   }
+  localize();
 }

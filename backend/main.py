@@ -1,4 +1,5 @@
 import os
+import json
 import platform
 import secrets
 import threading
@@ -19,7 +20,7 @@ from .experiment_manager import ExperimentManager
 from .process_manager import ProcessManager
 from .profile_manager import ProfileManager
 from .recommendation_engine import recommend
-from .schemas import Apply, Preview, Profile, Recommendation, Recording, Restore, Settings, TopologyResponse
+from .schemas import Apply, Preview, Profile, Recommendation, Recording, Restore, Settings, Preferences, TopologyResponse
 from .security import LocalSecurity
 from .task_control import LinuxTaskControl, WindowsTaskControl
 
@@ -51,6 +52,14 @@ def create_app(data_dir=None, reader=None, processes=None, control=None, metrics
     affinity = AffinityManager(processes, topology, data_dir, control)
     lab = ExperimentManager(processes, metrics_factory(), control)
     profiles = ProfileManager(data_dir)
+    preferences = {'language': None}
+    preferences_path = data_dir / 'preferences.json'
+    try:
+        saved_preferences = json.loads(preferences_path.read_text())
+        if isinstance(saved_preferences, dict) and saved_preferences.get('language') in ('ar', 'en'):
+            preferences['language'] = saved_preferences['language']
+    except (OSError, ValueError):
+        pass
 
     @asynccontextmanager
     async def lifespan(app):
@@ -61,7 +70,7 @@ def create_app(data_dir=None, reader=None, processes=None, control=None, metrics
             if row['status'] != 'restored':
                 affinity.restore(ident)
 
-    app = FastAPI(title='HalawaCore', version='0.2.0', lifespan=lifespan, docs_url=None, redoc_url=None)
+    app = FastAPI(title='HalawaCore', version='0.3.0', lifespan=lifespan, docs_url=None, redoc_url=None)
     app.add_middleware(LocalSecurity, token=token)
     app.state.affinity, app.state.processes, app.state.lab = affinity, processes, lab
     app.state.topology = topology
@@ -81,7 +90,7 @@ def create_app(data_dir=None, reader=None, processes=None, control=None, metrics
 
     @app.get('/api/session')
     def session():
-        return {'token': token, 'settings': settings, 'desktop': shutdown is not None, 'version': '0.2.0'}
+        return {'token': token, 'settings': settings, 'preferences': preferences, 'desktop': shutdown is not None, 'version': '0.3.0'}
 
     @app.get('/api/health')
     def health():
@@ -182,6 +191,17 @@ def create_app(data_dir=None, reader=None, processes=None, control=None, metrics
             settings.update(body.model_dump())
             affinity.read_only = body.read_only
         return settings
+
+    @app.post('/api/preferences')
+    def update_preferences(body: Preferences):
+        with affinity.lock:
+            temporary = data_dir / 'preferences.tmp'
+            with temporary.open('w', encoding='utf-8') as output:
+                os.chmod(temporary, 0o600)
+                json.dump(body.model_dump(), output)
+            os.replace(temporary, preferences_path)
+            preferences.update(body.model_dump())
+        return preferences
 
     @app.post('/api/shutdown')
     def stop_desktop():

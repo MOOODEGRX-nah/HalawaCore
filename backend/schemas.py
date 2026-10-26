@@ -55,6 +55,10 @@ class Settings(Input):
     display_offset: Annotated[StrictInt, Field(ge=0, le=1)] = 1
 
 
+class Preferences(Input):
+    language: Literal['ar', 'en']
+
+
 class TopologyResponse(BaseModel):
     model_config = ConfigDict(extra='allow')
     cpu_model: str

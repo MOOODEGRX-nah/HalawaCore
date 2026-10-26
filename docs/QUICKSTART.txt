@@ -1,4 +1,26 @@
-HalawaCore 0.2.0 — portable desktop application
+HalawaCore 0.3.0 — العربية
+
+هذه نسخة محمولة؛ لا تحتاج تثبيت بايثون أو كتابة أوامر.
+Windows 10 / 11 بمعمارية x64: فك ضغط الملف وافتح HalawaCore.exe.
+Linux بمعمارية x64: فك الضغط وافتح HalawaCore من مدير الملفات. إذا طُلب إذن التنفيذ، راجع مصدر الملف ثم اسمح به. لا تشغّل البرنامج بصلاحيات الجذر. تتطلب النسخة المنشورة glibc 2.35 أو أحدث.
+
+تفتح الواجهة المحلية تلقائيًا في المتصفح. اختر العربية أو الإنجليزية من محدد اللغة، ويُحفظ الاختيار محليًا.
+ابدأ بلوحة التحكم وخريطة الأنوية في وضع القراءة فقط. اختر العملية الفعلية وسجّل قياسًا أساسيًا قبل التجربة.
+افتح المساعدة والدليل تحت الإعدادات، أو اضغط علامة ؟ بجانب الأقسام لشرحها. يتوفر دليل بداية يمكن فتحه مجددًا.
+أي تعديل لتوزيع الأنوية يحتاج تفعيل التجارب ومعاينة المهام المتأثرة والتأكيد. لا يوجد تحسن أداء مضمون.
+أوقف التسجيل واستعد جميع التجارب قبل الضغط على إغلاق HalawaCore. إغلاق التبويب وحده لا يوقف الخادم المحلي.
+
+دعم Windows أولي: الأنظمة متعددة مجموعات المعالجات والمهام ذات CPU Sets الصريحة تبقى للقراءة فقط.
+معلومات X3D والأنوية المفضلة تظهر عند كشف النظام لها؛ البيانات الناقصة تبقى غير مؤكدة.
+راجع تقرير verification.json المرفق. اختبارات خوادم Windows لا تمثل تحققًا على عتاد Windows 10/11 فعلي، واختبارات X3D تستخدم بيانات اصطناعية.
+
+الموقع: https://mooodegrx-nah.github.io/HalawaCore/?lang=ar
+التحميل والدليل: https://mooodegrx-nah.github.io/HalawaCore/app.html?lang=ar
+
+----------------------------------------
+English
+
+HalawaCore 0.3.0 — portable desktop application
 
 No Python installation or terminal commands are needed for this executable release.
 
@@ -10,6 +32,10 @@ Extract the tar.gz archive. Open the HalawaCore executable in your file manager.
 If your desktop asks whether to allow execution, review that the file is from this project's release.
 Do not use sudo. Native GitHub Actions Linux releases target glibc 2.35+.
 Locally built Linux binaries may require the builder's newer glibc version; check release notes.
+
+Choose Arabic or English from the language selector; the app saves your choice locally.
+Open Help & Guide below Settings or use the ? buttons beside sections.
+The welcome guide can be reopened from Help & Guide.
 
 The application starts in read-only mode. Analyze topology, choose a process and record a baseline.
 Optional affinity changes require enabling experiments, reviewing an exact task preview, and confirming.

@@ -1,3 +1,5 @@
+import {initLanguage,localize,t,setLanguage,getLanguage} from './i18n.js';
+import {initHelp,attachHelp,renderHelp,showWelcome} from './help.js';
 import {state,esc,toast} from './state.js';
 import {api} from './api.js';
 import {renderDashboard,updateDashboard} from './dashboard.js';
@@ -7,10 +9,11 @@ import {renderPlanner} from './affinity.js';
 import {renderLab,updateLab} from './experiments.js';
 import {renderSettings,renderProfiles} from './settings.js';
 
-const pages={dashboard:['Dashboard',renderDashboard],topology:['CPU Topology',renderTopology],applications:['Applications',renderProcesses],planner:['Affinity Planner',renderPlanner],lab:['Performance Lab',renderLab],profiles:['Saved Profiles',renderProfiles],settings:['Settings',renderSettings]};
+const pages={dashboard:['Dashboard',renderDashboard],topology:['CPU Topology',renderTopology],applications:['Applications',renderProcesses],planner:['Affinity Planner',renderPlanner],lab:['Performance Lab',renderLab],profiles:['Saved Profiles',renderProfiles],settings:['Settings',renderSettings],help:['Help & Guide',renderHelp]};
 document.documentElement.dataset.theme=localStorage.getItem('theme')==='light'?'light':'dark';
 if(![1,3,5,10].includes(state.refresh))state.refresh=3;
 let busy=false,connected=false,ticks=0;
+initHelp();document.addEventListener('halawacore-before-localize',attachHelp);initLanguage();
 function shell(){
   document.querySelector('#page-label').textContent=pages[state.page][0];
   document.querySelectorAll('[data-page]').forEach(a=>{const active=a.dataset.page===state.page;a.classList.toggle('active',active);if(active)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
@@ -20,7 +23,7 @@ function shell(){
 async function render(){
   if(!state.topology)return;
   state.page=pages[location.hash.slice(1)]?location.hash.slice(1):'dashboard';shell();
-  try{await pages[state.page][1]();}catch(e){toast(e.message,true);document.querySelector('#content').innerHTML=`<div class="empty"><h2 class="error-title">This view is unavailable</h2><p>${esc(e.message)}</p><a class="primary button" href="#applications">Browse processes</a></div>`;}
+  try{await pages[state.page][1]();attachHelp();localize();}catch(e){toast(e.message,true);document.querySelector('#content').innerHTML=`<div class="empty"><h2 class="error-title">This view is unavailable</h2><p>${esc(e.message)}</p><a class="primary button" href="#applications">Browse processes</a></div>`;}
 }
 async function refresh(force=false){
   if(state.closed||busy||(!force&&document.hidden))return;
@@ -46,16 +49,20 @@ async function refresh(force=false){
 async function poll(){await refresh();setTimeout(poll,state.refresh*1000);}
 async function start(){
   try{
-    const session=await api('/session');state.token=session.token;state.settings=session.settings;state.desktop=!!session.desktop;
-    if(state.desktop&&!document.querySelector('#quit-desktop')){const quit=document.createElement('button');quit.id='quit-desktop';quit.className='secondary';quit.textContent='Quit HalawaCore';quit.onclick=async()=>{if(!window.confirm('Close HalawaCore? Stop recordings and restore experiments first.'))return;try{await api('/shutdown',{});document.querySelector('#content').innerHTML='<div class=empty><h2>HalawaCore has closed</h2><p>You can close this browser tab.</p></div>';document.querySelector('#connection').textContent='Closed';state.closed=true;}catch(e){toast(e.message,true);}};document.querySelector('.top-actions').append(quit);}
+    const session=await api('/session');state.token=session.token;state.settings=session.settings;state.desktop=!!session.desktop;state.persistedLanguage=session.preferences?.language||null;setLanguage(state.persistedLanguage||getLanguage());
+    if(state.desktop&&!document.querySelector('#quit-desktop')){const quit=document.createElement('button');quit.id='quit-desktop';quit.className='secondary';quit.textContent='Quit HalawaCore';quit.onclick=async()=>{if(!window.confirm(t('Close HalawaCore? Stop recordings and restore experiments first.')))return;try{await api('/shutdown',{});document.querySelector('#content').innerHTML='<div class=empty><h2>HalawaCore has closed</h2><p>You can close this browser tab.</p></div>';document.querySelector('#connection').textContent='Closed';state.closed=true;}catch(e){toast(e.message,true);}};document.querySelector('.top-actions').append(quit);}
     const [topology,metrics,system]=await Promise.all([api('/cpu/topology'),api('/cpu/metrics'),api('/system')]);
     state.topology=topology;state.metrics=metrics;state.system=system;state.history=[metrics];connected=true;
-    document.querySelector('#connection').textContent='Live system';await render();poll();
+    document.querySelector('#connection').textContent='Live system';await render();showWelcome();poll();
   }catch(e){document.querySelector('#content').innerHTML=`<div class="empty"><h2>Cannot connect to HalawaCore</h2><p>${esc(e.message)} Start the backend with ./run.sh and open http://127.0.0.1:8000.</p><button id="retry" class="primary">Retry connection</button></div>`;document.querySelector('#retry').onclick=start;}
 }
 window.addEventListener('hashchange',render);
 document.addEventListener('halawacore-render',render);
 document.addEventListener('halawacore-settings',shell);
+document.addEventListener('halawacore-language',async event=>{
+  if(!state.token||state.persistedLanguage===event.detail)return;
+  try{const saved=await api('/preferences',{language:event.detail});state.persistedLanguage=saved.language;}catch(error){toast(error.message,true);}
+});
 document.querySelector('#refresh').onclick=async()=>{await refresh(true);if(!['dashboard','topology','lab'].includes(state.page))await render();};
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh(true);});
 start();

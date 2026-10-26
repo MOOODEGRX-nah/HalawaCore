@@ -1,4 +1,14 @@
-# Validation — HalawaCore 0.2.0, 2026-10-26
+# Validation — HalawaCore
+
+## 0.3.0 interface and language update — 2026-10-26
+
+- 87 Linux/Python tests passed, including persisted Arabic/English preference, invalid input, CSRF protection and unchanged read-only/affinity state.
+- Dependency-free JavaScript translation contracts verify both languages while preserving CPU IDs, group labels, numeric sets and filenames.
+- Browser checks cover Arabic/English switching, RTL/LTR, settings language controls, contextual explanations, searchable Help & Guide, first-run onboarding and Windows/Linux download guidance.
+- Website download guidance opens before a download, permits cancellation/back navigation and uses the verified current release URL only at the final step.
+- Only the user-provided logo and synthetic interface diagrams are included in public assets. No live hardware screenshots are published.
+
+## 0.2.0 native platform validation — 2026-10-26
 
 ## Local automated checks
 

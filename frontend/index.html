@@ -1,19 +1,20 @@
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en" dir="ltr" data-theme="dark">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark light">
   <title>HalawaCore · CPU topology & affinity</title>
-  <link rel="icon" type="image/svg+xml" href="/static/assets.svg">
+  <link rel="icon" type="image/png" href="/static/assets/brand-logo.png">
   <link rel="stylesheet" href="/static/css/styles.css">
   <link rel="stylesheet" href="/static/css/responsive.css">
+  <link rel="stylesheet" href="/static/css/brand.css">
   <script type="module" src="/static/js/main.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#content">Skip to content</a>
   <aside class="sidebar">
-    <a class="brand" href="#dashboard"><span class="brand-mark">H<span>+</span></span><span>HalawaCore<small>CPU PERFORMANCE TOOLKIT</small></span></a>
+    <a class="brand" href="#dashboard"><img class="brand-logo" src="/static/assets/brand-logo.png" width="42" height="42" alt="M — HalawaCore logo"><span>HalawaCore<small>CPU PERFORMANCE TOOLKIT</small></span></a>
     <div class="nav-label">WORKSPACE</div>
     <nav aria-label="Main navigation">
       <a href="#dashboard" data-page="dashboard"><span>◫</span>Dashboard</a>
@@ -23,15 +24,18 @@
       <a href="#lab" data-page="lab"><span>⌁</span>Performance Lab</a>
       <a href="#profiles" data-page="profiles"><span>▱</span>Saved Profiles</a>
       <a href="#settings" data-page="settings"><span>⚙</span>Settings</a>
+      <a href="#help" data-page="help" class="help-nav"><span>?</span>Help &amp; Guide</a>
     </nav>
-    <div class="sidebar-bottom"><div class="local-dot">Local by design</div><p>Hardware & process data stays<br>on this machine.</p><div class="version">HALAWACORE <span>v0.2.0</span></div></div>
+    <div class="sidebar-bottom"><div class="local-dot">Local by design</div><p>Hardware & process data stays<br>on this machine.</p><div class="version">HALAWACORE <span>v0.3.0</span></div></div>
   </aside>
   <div class="workspace">
-    <header class="topbar"><div><span class="breadcrumb">Workspace</span><span class="slash">/</span><span id="page-label">Dashboard</span></div><div class="top-actions"><span id="connection" class="connection">Connecting</span><a id="mode-badge" class="badge" href="#settings">Read-only mode</a><button id="refresh" class="icon-button" title="Refresh live data" aria-label="Refresh live data">↻</button></div></header>
+    <header class="topbar"><div><span class="breadcrumb">Workspace</span><span class="slash">/</span><span id="page-label">Dashboard</span></div><div class="top-actions"><select id="app-language" class="language-select" data-language-select data-no-i18n aria-label="Interface language"><option value="ar">العربية</option><option value="en">English</option></select><span id="connection" class="connection">Connecting</span><a id="mode-badge" class="badge" href="#settings">Read-only mode</a><button id="refresh" class="icon-button" title="Refresh live data" aria-label="Refresh live data">↻</button></div></header>
     <main id="content" tabindex="-1"><div class="loading">Reading system topology…</div></main>
     <footer><span>Read from your system. Understood by you.</span><span id="updated">Waiting for first sample</span></footer>
   </div>
   <div id="toasts" role="status" aria-live="polite"></div>
   <dialog id="confirm-dialog" aria-labelledby="confirm-title"><form method="dialog"><div class="eyebrow">REVIEW EXPERIMENT</div><h2 id="confirm-title">Confirm affinity change</h2><div id="confirm-body"></div><label class="check-line"><input id="confirm-check" type="checkbox"> I understand this is an experiment and may reduce performance.</label><div class="dialog-actions"><button value="cancel" class="secondary">Cancel</button><button id="confirm-apply" value="apply" class="primary" disabled>Apply to listed tasks</button></div></form></dialog>
+  <dialog id="feature-help" aria-labelledby="feature-help-title"><div class="flex spread"><h2 id="feature-help-title"></h2><button type="button" data-close-help class="secondary">Close</button></div><div id="feature-help-body"></div></dialog>
+  <dialog id="welcome-guide" aria-labelledby="welcome-title"><h2 id="welcome-title"></h2><div id="welcome-body"></div><div class="dialog-actions"><button type="button" data-close-welcome class="primary">Start exploring</button></div></dialog>
 </body>
 </html>

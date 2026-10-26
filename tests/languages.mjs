@@ -1,0 +1,23 @@
+// Dependency-free translation contracts. UI interactions are verified separately in the browser.
+import assert from 'node:assert/strict';
+const saved=new Map();
+globalThis.localStorage={getItem:key=>saved.get(key)??null,setItem:(key,value)=>saved.set(key,String(value))};
+Object.defineProperty(globalThis,'navigator',{value:{language:'en-US'},configurable:true});
+globalThis.location={href:'https://example.test/HalawaCore/?lang=ar'};
+const {translateText}=await import('../frontend/js/i18n.js');
+const {translate}=await import('../site/assets/i18n.js');
+assert.equal(translateText('Settings','ar'),'الإعدادات');
+assert.equal(translateText('Settings','en'),'Settings');
+assert.equal(translateText('OS CPU 0 · Display 1 · Online','ar'),'معالج النظام 0 · الرقم المعروض 1 · متصل');
+assert.equal(translateText('OS CPU 73 · Display G1:P9 · Offline','ar'),'معالج النظام 73 · الرقم المعروض G1:P9 · غير متصل');
+assert.equal(translateText('  Core 128  ','ar'),'  النواة 128  ');
+assert.equal(translateText('0, 8, 64, 73','ar'),'0, 8, 64, 73');
+assert.equal(translateText('partially available · registered','ar'),'متاح جزئيًا · مسجّل');
+assert.equal(translateText('X3D cache group unverified','ar'),'مجموعة كاش X3D غير مؤكدة');
+assert.equal(translateText('my-game.exe','ar'),'my-game.exe');
+assert.equal(translate('تجاوز إلى المحتوى','en'),'Skip to content');
+assert.equal(translate('الإصدار v0.3.0 متاح من مستودع المشروع الرسمي.','en'),'Release v0.3.0 is available from the official project repository.');
+assert.equal(translate('SHARED L3','ar'),'كاش L3 مشترك');
+assert.equal(translate('SHARED L3','en'),'SHARED L3');
+assert.equal(translate('HalawaCore-Windows-x64.zip','ar'),'HalawaCore-Windows-x64.zip');
+console.log('Arabic/English translation contracts passed; CPU IDs and filenames preserved.');

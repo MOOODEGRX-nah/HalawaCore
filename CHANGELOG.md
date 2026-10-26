@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.0 — 2026-10-26
+
+- Approved M logo and red-and-black website/application styling, including the Windows executable icon.
+- Arabic/English interface switching with RTL/LTR layouts and locally persisted desktop language.
+- Searchable Help & Guide below Settings and contextual question-mark explanations.
+- Download onboarding for Windows/Linux and an in-app welcome guide.
+- README organized as a complete Arabic section followed by a complete English section.
+- Versioned releases preserve earlier published executables.
+
 ## 0.2.0 — 2026-10-26
 
 - Final product name: HalawaCore.

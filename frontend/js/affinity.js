@@ -1,3 +1,4 @@
+import {t} from './i18n.js';
 import {state,esc,list,heading,panel,toast,navigate} from './state.js';
 import {api} from './api.js';
 import {coreGrid,updateUtilization} from './topology.js';
@@ -40,7 +41,7 @@ export async function renderPlanner(){
   document.querySelector('#preview').onclick=()=>preview().catch(e=>toast(e.message,true));
   document.querySelector('#save-profile').onclick=async()=>{
     if(!state.selected.size){toast('Select at least one CPU first.',true);return;}
-    const name=window.prompt('Profile name');if(!name?.trim())return;
+    const name=window.prompt(t('Profile name'));if(!name?.trim())return;
     try{await api('/profiles',{name:name.trim(),cpus:[...state.selected].sort((a,b)=>a-b),note:`Created for ${workload}; never applied automatically.`,generation:t.generation});toast('Profile saved. Loading it later requires a fresh review.');}catch(e){toast(e.message,true);}
   };
   bindRestore();bindGrid();summary();updateUtilization();
