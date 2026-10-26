@@ -18,6 +18,8 @@ Windows fixtures exercise fixed-width native structure sizes, legacy/current cac
 
 The renamed local dashboard loads real data. The Arabic product website links to the separate program/download page, labels its chip diagram as illustrative, and uses an interface illustration with no live device data. The website does not attempt to inspect visitor processes. Downloads resolve only from real GitHub release assets; unavailable releases use the release listing.
 
-The native GitHub release workflow separately tests/builds on Windows Server and Ubuntu 22.04. Each downloadable archive includes its executable verification report. CI on a virtual Windows Server runner is distinct from physical Windows 10/11 hardware testing.
+The native GitHub release workflow passed on both Windows Server and Ubuntu 22.04. The Windows job passed 12 topology/ABI fixture tests and the bundled executable verified topology plus owned-child affinity application, kernel read-back and restoration. The Linux job passed the full 86-test suite and its bundled executable self-test. Each downloadable archive includes its executable verification report. CI on a virtual Windows Server runner is distinct from physical Windows 10/11 hardware testing.
 
 Local Linux binaries built on the current Arch/CachyOS host may require that host's glibc. GitHub Linux releases are built on Ubuntu 22.04 and target glibc 2.35+.
+
+Verified release workflow: https://github.com/MOOODEGRX-nah/HalawaCore/actions/runs/40385407298

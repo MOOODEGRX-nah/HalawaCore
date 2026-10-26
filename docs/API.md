@@ -1,5 +1,13 @@
 # Local API
 
+## Desktop / Windows 0.2.0 additions
+
+The desktop executable chooses an available loopback port and opens its URL automatically. Use that exact origin for any local client; port 8000 below is the source-development default. `GET /api/session` includes `desktop: true` when launched as the portable app. `POST /api/shutdown` requires the normal token/origin and refuses until all experiments are restored and recording has stopped.
+
+On Windows, process/thread `identity` is the exact decimal creation FILETIME, not Linux start ticks. Scope `main` means the oldest surviving thread on Windows, and the main task on Linux. Windows PID is never assumed to equal TID. The legacy recommendation field `linux_cpus` contains stable internal OS CPU IDs on either platform; Windows display labels use group/processor pairs. Explicit CPU Sets and multiple processor groups stay read-only in the Windows initial release. Linux sysfs driver/CPPC values are unavailable on Windows rather than simulated.
+
+## Source-development API reference
+
 Base URL: `http://127.0.0.1:8000`. Responses are JSON except `/` and static assets. The machine-readable OpenAPI schema is at `/openapi.json`. The app does not load external Swagger assets.
 
 State-changing calls require both `Origin: http://127.0.0.1:8000` (matching the exact Host/port) and `X-HalawaCore-Token`, obtained from `GET /api/session` in the same browser origin or trusted local client. No unrestricted CORS is enabled. Do not put the token in a URL or logs.
