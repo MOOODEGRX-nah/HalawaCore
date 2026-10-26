@@ -26,6 +26,9 @@ export async function renderProcesses(){
     };return;
   }
   if(tab==='installed'){
+    if(state.topology.platform==='Windows'){
+      content.className='';content.innerHTML=panel('Installed applications','<div class="notice neutral">Installed application catalog discovery is not available on Windows in this release. Use Running processes to select a real accessible process for analysis and affinity experiments.</div>');return;
+    }
     const data=await api('/applications');if(state.page!=='applications')return;
     content.className='';content.innerHTML=`<div class="notice neutral">XDG and accessible Flatpak desktop entries. An installed entry does not establish a running process identity. Select a verified process in Running processes for affinity testing.</div><div class="toolbar"><input id="app-search" type="search" placeholder="Search name or desktop application ID" aria-label="Search installed applications"></div><div id="app-list" class="app-list"></div>`;
     const draw=()=>{const q=document.querySelector('#app-search').value.toLowerCase();document.querySelector('#app-list').innerHTML=data.applications.filter(a=>`${a.name} ${a.id}`.toLowerCase().includes(q)).map(a=>`<article class="app-entry"><h3>${esc(a.name)}</h3><p class="mono">${esc(a.id)}</p><p>${esc(a.compatibility)}</p>${a.flatpak_id?`<span class="badge">Flatpak · ${esc(a.flatpak_id)}</span>`:''}</article>`).join('')||'<p class="muted">No matching accessible desktop entries.</p>';};document.querySelector('#app-search').oninput=draw;draw();return;
