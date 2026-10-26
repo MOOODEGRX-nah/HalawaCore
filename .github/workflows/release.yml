@@ -2,7 +2,7 @@ name: Build desktop releases
 on:
   push:
     branches: [main]
-    paths-ignore: ['site/**', 'docs/**', '*.md']
+    paths-ignore: ['site/**', 'docs/**', '*.md', 'index.html', 'app.html', '.nojekyll', '.github/workflows/**']
   workflow_dispatch:
 permissions:
   contents: write

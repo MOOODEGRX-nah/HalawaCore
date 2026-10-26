@@ -2,7 +2,7 @@ name: Publish HalawaCore website
 on:
   push:
     branches: [main]
-    paths: ['site/**', '.github/workflows/pages.yml']
+    paths: ['site/**', 'index.html', 'app.html', '.nojekyll', '.github/workflows/pages.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -22,9 +22,15 @@ jobs:
       - uses: actions/configure-pages@v5
         with:
           enablement: true
+      - name: Prepare website and branch-publishing aliases
+        run: |
+          mkdir -p _site/site
+          cp -a site/. _site/
+          cp -a site/. _site/site/
+          touch _site/.nojekyll
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: site
+          path: _site
       - name: Deploy website
         id: deployment
         uses: actions/deploy-pages@v4
