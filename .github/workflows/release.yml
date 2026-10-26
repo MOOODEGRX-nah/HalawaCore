@@ -1,0 +1,74 @@
+name: Build desktop releases
+on:
+  push:
+    branches: [main]
+    paths-ignore: ['site/**', 'docs/**', '*.md']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-22.04
+            asset: HalawaCore-Linux-x64.tar.gz
+          - os: windows-latest
+            asset: HalawaCore-Windows-x64.zip
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install build dependencies
+        run: python -m pip install -r requirements-build.txt
+      - name: Linux tests
+        if: runner.os == 'Linux'
+        run: python -m pytest -q
+      - name: Windows topology fixtures
+        if: runner.os == 'Windows'
+        run: python -m pytest -q tests/test_windows.py
+      - name: Build executable
+        run: python build_desktop.py
+      - name: Verify Linux executable
+        if: runner.os == 'Linux'
+        env:
+          HALAWACORE_DATA_DIR: ${{ runner.temp }}/halawacore-test
+        run: ./dist/desktop/HalawaCore --self-test --self-test-file dist/self-test-Linux.json
+      - name: Verify Windows executable
+        if: runner.os == 'Windows'
+        env:
+          HALAWACORE_DATA_DIR: ${{ runner.temp }}/halawacore-test
+        shell: pwsh
+        run: |
+          $report = Join-Path $PWD 'dist/self-test-Windows.json'
+          $process = Start-Process -FilePath './dist/desktop/HalawaCore.exe' -ArgumentList @('--self-test','--self-test-file', $report) -PassThru -Wait
+          if ($process.ExitCode -ne 0) { throw "Executable test failed: $($process.ExitCode)" }
+          $result = Get-Content $report -Raw | ConvertFrom-Json
+          if ($result.topology -ne 'ok' -or $result.error) { throw 'Native Windows verification failed' }
+          Get-Content $report
+      - name: Package executable and report
+        env:
+          RELEASE_ASSET: ${{ matrix.asset }}
+        run: python release_package.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.asset }}
+          path: dist/releases/*
+  release:
+    needs: build
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: release-assets
+          merge-multiple: true
+      - name: Publish verified binaries
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          gh release view v0.2.0 || gh release create v0.2.0 --target main --title 'HalawaCore 0.2.0' --notes 'Windows x64 and Linux x64 portable applications. Open the included executable; Python is bundled. Read the included verification report and compatibility notes. X3D hardware coverage uses fixtures. Linux build requires glibc 2.35 or newer.'
+          gh release upload v0.2.0 release-assets/* --clobber

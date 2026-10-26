@@ -1,0 +1,21 @@
+{
+  "ryzen7700": {"model":"AMD Ryzen 7 7700", "vendor":"AuthenticAMD", "domains":[8], "sizes":["32M"]},
+  "single7800x3d": {"model":"AMD Ryzen 7 7800X3D", "vendor":"AuthenticAMD", "domains":[8], "sizes":["96M"]},
+  "single9800x3d": {"model":"AMD Ryzen 7 9800X3D", "vendor":"AuthenticAMD", "domains":[8], "sizes":["98304K"]},
+  "dual7950x3d": {"model":"AMD Ryzen 9 7950X3D", "vendor":"AuthenticAMD", "domains":[8,8], "sizes":["32M","96M"], "frequency":[5700000,5250000], "mode":"cache", "sparse":true},
+  "dual7900x3d": {"model":"AMD Ryzen 9 7900X3D", "vendor":"AuthenticAMD", "domains":[6,6], "sizes":["96M","32M"], "frequency":[5250000,5600000], "mode":"frequency"},
+  "dual9900x3d": {"model":"AMD Ryzen 9 9900X3D", "vendor":"AuthenticAMD", "domains":[6,6], "sizes":["32M","96M"], "frequency":[5500000,5200000]},
+  "dual9950x3d": {"model":"AMD Ryzen 9 9950X3D", "vendor":"AuthenticAMD", "domains":[8,8], "sizes":["96M","32M"], "frequency":[5400000,5700000]},
+  "epyc": {"model":"AMD EPYC fixture", "vendor":"AuthenticAMD", "domains":[4,4,4,4], "sizes":["32M","32M","32M","32M"]},
+  "intel_smt": {"model":"Intel homogeneous fixture", "vendor":"GenuineIntel", "domains":[6], "sizes":["12M"]},
+  "intel_hybrid": {"model":"Intel hybrid fixture", "vendor":"GenuineIntel", "domains":[2,2], "sizes":["24M","24M"], "threads":[2,1], "capacities":[1024,600]},
+  "intel_three_classes": {"model":"Intel capacity fixture", "vendor":"GenuineIntel", "domains":[2,2,2], "sizes":["16M","8M","4M"], "threads":[2,1,1], "capacities":[1024,600,300]},
+  "intel_no_ht": {"model":"Intel hybrid without HT fixture", "vendor":"GenuineIntel", "domains":[4,4], "sizes":["12M","8M"], "threads":[1,1], "capacities":[1024,600]},
+  "arm64": {"model":"ARM fixture", "vendor":"0x41", "architecture":"aarch64", "domains":[4,4], "sizes":["4M","2M"], "threads":[1,1], "capacities":[1024,512]},
+  "no_smt": {"model":"Generic no SMT", "domains":[4], "sizes":["8M"], "threads":[1]},
+  "multisocket": {"model":"NUMA workstation fixture", "domains":[4,4], "sizes":["16M","16M"], "packages":[0,1], "numa":true},
+  "virtual": {"model":"Virtual guest fixture", "domains":[4], "sizes":["8M"], "virtual":true},
+  "future": {"model":"Future architecture fixture", "architecture":"riscv64", "domains":[3], "sizes":["6M"], "threads":[3]},
+  "power": {"model":"POWER fixture", "architecture":"ppc64le", "domains":[2], "sizes":["16M"], "threads":[4]},
+  "s390": {"model":"s390 fixture", "architecture":"s390x", "domains":[2], "sizes":["16M"], "threads":[2]}
+}

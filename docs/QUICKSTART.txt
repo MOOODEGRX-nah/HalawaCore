@@ -1,0 +1,31 @@
+HalawaCore 0.2.0 — portable desktop application
+
+No Python installation or terminal commands are needed for this executable release.
+
+Windows 10 / 11 x64:
+Extract the ZIP. Open HalawaCore.exe. Your browser opens the local interface automatically.
+
+Linux x64:
+Extract the tar.gz archive. Open the HalawaCore executable in your file manager.
+If your desktop asks whether to allow execution, review that the file is from this project's release.
+Do not use sudo. Native GitHub Actions Linux releases target glibc 2.35+.
+Locally built Linux binaries may require the builder's newer glibc version; check release notes.
+
+The application starts in read-only mode. Analyze topology, choose a process and record a baseline.
+Optional affinity changes require enabling experiments, reviewing an exact task preview, and confirming.
+Stop recording and restore every experiment before using Quit HalawaCore.
+Closing the browser tab alone does not stop the local backend.
+
+Windows limits in this release:
+- Multiple processor groups: topology analysis only; no affinity mutation.
+- Explicit process/thread CPU Sets: target remains read-only.
+- Default task means oldest surviving thread, not a claim that Windows PID equals TID.
+- Linux CPPC/amd_x3d_vcache interfaces do not exist on Windows; unavailable data remains unverified.
+
+The included verification.json reports actual tests for this binary, when available.
+Windows Server CI or Wine verification is not physical Windows 10/11 hardware validation.
+X3D coverage uses synthetic fixtures; no physical X3D performance claims are made.
+No FPS improvements, performance gains, crash recovery or permanent child-process coverage are promised.
+
+Project: https://github.com/MOOODEGRX-nah/HalawaCore
+Website: https://MOOODEGRX-nah.github.io/HalawaCore/
