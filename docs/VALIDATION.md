@@ -5,7 +5,8 @@
 - 132 Linux/Python tests pass. New coverage verifies 800% / 16 = 50%, sparse IDs, unavailable/invalid capacity, elapsed-interval weighting, zero baselines, signed percentage-point changes, process reuse/mismatch, phase ordering, incomplete samples, changed online capacity and descriptive warnings. Comparison API checks enforce local CSRF protection and leave affinity state unchanged.
 - Source desktop self-test records and compares two real phases of an owned disposable child after its affinity is restored; process CPU share is verified without claiming a speed improvement.
 - Browser checks use synthetic fixtures, verify both percentage modes (50% versus 800%), preserve the raw reading, and display matching before/after values, signed differences and aligned curves in Arabic and English. Screenshots contain synthetic measurements only. No user game is modified or benchmarked.
-- Native CI and Arch recipe validation are recorded after the immutable release is published.
+- Native 0.5.0 verification passed on both GitHub runners: 132 Linux tests, 54 Windows tests, both executable affinity/recording/comparison self-tests and the packaged Linux browser regression. Verified run: https://github.com/MOOODEGRX-nah/HalawaCore/actions/runs/40468281312
+- The 0.5.0 Arch/CachyOS package was built with makepkg against the published SHA-256. The unchanged release payload passes its affinity/recording/comparison self-test and browser regression on the local CachyOS host. No system package was installed by this validation.
 
 ## 0.4.0 multiple-process affinity — 2026-10-27
 
