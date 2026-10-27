@@ -7,6 +7,10 @@
 - Interface checks cover selection across search, refresh and language changes; removal of exited selections; common-mask and no-common-CPU states; exact three-task/two-process preview; read-only application blocking; and synthetic application/restoration.
 - Native packaged self-tests now preview, apply, verify and individually restore two owned disposable children on supported systems. Physical Windows 10/11 and X3D hardware claims remain limited to the evidence described below.
 
+Native 0.4.0 release verification passed on both GitHub runners: 109 Linux tests, 33 Windows tests, both executable two-child apply/verify/restore checks, and the packaged Linux browser regression. Verified run: https://github.com/MOOODEGRX-nah/HalawaCore/actions/runs/40462303334
+
+The updated 0.4.0 Arch/CachyOS recipe was built with makepkg against the published SHA-256. Its executable is unchanged from the release payload and passes the two-child self-test and browser regression on the local CachyOS host. No system package was installed during this check.
+
 ## Arch/CachyOS packaging — 2026-10-27
 
 - Built `halawacore-bin-0.3.2-1-x86_64.pkg.tar.zst` with the installed CachyOS `makepkg`, downloading the official immutable release URL and verifying all four SHA-256 entries. No package was installed on the host.

@@ -40,7 +40,7 @@ makepkg -si
 إذا كانت لديك حزمة `.pkg.tar.zst` مبنية مسبقًا، افتح الطرفية في مجلدها ثم ثبّتها مباشرةً:
 
 ```sh
-sudo pacman -U ./halawacore-bin-0.3.2-1-x86_64.pkg.tar.zst
+sudo pacman -U ./halawacore-bin-0.4.0-1-x86_64.pkg.tar.zst
 ```
 
 هذه الطريقة المحلية لا تنشئ مصدر تحديثات عبر AUR. لا تشغّل `halawacore` باستخدام `sudo`.
@@ -55,7 +55,7 @@ sudo pacman -U ./halawacore-bin-0.3.2-1-x86_64.pkg.tar.zst
 | الشعار | `/usr/share/icons/hicolor/scalable/apps/halawacore.svg` |
 | الإعدادات والسجلات | `${XDG_DATA_HOME:-$HOME/.local/share}/halawacore` |
 
-الحزمة تتحقق من بصمة SHA-256 للنسخة الرسمية 0.3.2، وتتطلب `x86_64` و`glibc 2.35+` ومتصفحًا مثبتًا. لا تعدّل BIOS أو إعدادات المعالج أو الإقلاع، ولا تضيف خدمة أو تشغيلًا تلقائيًا. يظل البرنامج يبدأ للقراءة فقط وتحتاج تجارب التوزيع إلى التأكيد. لا تستبدل الحزمة النسخة المحمولة الموجودة في `~/Applications/HalawaCore`؛ بعد التثبيت افتح اختصار القائمة أو الأمر الجديد لتجنّب تشغيل نسخة قديمة.
+الحزمة تتحقق من بصمة SHA-256 للنسخة الرسمية 0.4.0، وتتطلب `x86_64` و`glibc 2.35+` ومتصفحًا مثبتًا. لا تعدّل BIOS أو إعدادات المعالج أو الإقلاع، ولا تضيف خدمة أو تشغيلًا تلقائيًا. يظل البرنامج يبدأ للقراءة فقط وتحتاج تجارب التوزيع إلى التأكيد. لا تستبدل الحزمة النسخة المحمولة الموجودة في `~/Applications/HalawaCore`؛ بعد التثبيت افتح اختصار القائمة أو الأمر الجديد لتجنّب تشغيل نسخة قديمة.
 
 ### النشر لأول مرة — لمالك المشروع
 
@@ -110,7 +110,7 @@ makepkg -si
 For an already built `.pkg.tar.zst`, open a terminal in its folder and install directly:
 
 ```sh
-sudo pacman -U ./halawacore-bin-0.3.2-1-x86_64.pkg.tar.zst
+sudo pacman -U ./halawacore-bin-0.4.0-1-x86_64.pkg.tar.zst
 ```
 
 A local installation does not establish an AUR update source. Never run `halawacore` with `sudo`.
@@ -125,7 +125,7 @@ A local installation does not establish an AUR update source. Never run `halawac
 | Logo | `/usr/share/icons/hicolor/scalable/apps/halawacore.svg` |
 | Personal settings and logs | `${XDG_DATA_HOME:-$HOME/.local/share}/halawacore` |
 
-The recipe verifies the official 0.3.2 release SHA-256. It requires `x86_64`, `glibc 2.35+` and an installed browser. It does not change BIOS, CPU or boot settings, or add a service or automatic startup. The app still starts read-only and affinity experiments require confirmation. The package does not replace a portable copy in `~/Applications/HalawaCore`; use the menu entry or new command after installation to avoid launching an old copy.
+The recipe verifies the official 0.4.0 release SHA-256. It requires `x86_64`, `glibc 2.35+` and an installed browser. It does not change BIOS, CPU or boot settings, or add a service or automatic startup. The app still starts read-only and affinity experiments require confirmation. The package does not replace a portable copy in `~/Applications/HalawaCore`; use the menu entry or new command after installation to avoid launching an old copy.
 
 ### First publication — project maintainer
 
