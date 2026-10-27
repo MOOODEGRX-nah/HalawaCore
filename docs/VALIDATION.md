@@ -2,7 +2,9 @@
 
 ## 0.6.1 target-system TLS trust — 2026-10-27
 
-A real frozen 0.6.0 update check on CachyOS exposed an Ubuntu-compiled OpenSSL CA path absent on the target. The same executable succeeds with the host CA bundle explicitly supplied. The updater now selects an existing target-system Linux CA file, honors explicit SSL_CERT_FILE/SSL_CERT_DIR settings, and retains the Windows default store. Added contracts keep hostname verification and CERT_REQUIRED enabled; no TLS bypass is used. Native verification follows publication below.
+A real frozen 0.6.0 update check on CachyOS exposed an Ubuntu-compiled OpenSSL CA path absent on the target. The same executable succeeds with the host CA bundle explicitly supplied. The updater now selects an existing target-system Linux CA file, honors explicit SSL_CERT_FILE/SSL_CERT_DIR settings, and retains the Windows default store. Added contracts keep hostname verification and CERT_REQUIRED enabled; no TLS bypass is used. The fixed frozen 0.6.1 executable successfully checks the real GitHub release on CachyOS with its default environment, without an SSL_CERT_FILE workaround. CI passed 161 Linux tests and 82 Windows tests, both native portable replacement/backup checks, and Arch payload identity verification. Verified run: https://github.com/MOOODEGRX-nah/HalawaCore/actions/runs/40495134734
+
+The real 0.5.0 → 0.6.1 update was exercised only in an owned workspace folder, preserving the backup and stored preference file. A one-time graphical Arch installer was generated for the user: its official package digest and identity are checked before requesting the OS permission dialog. Its --check verification passed; system installation is intentionally left to the user's click. A Settings screenshot from the actual 0.6.1 executable contains no hardware/process metadata.
 
 ## 0.6.0 explicit in-app updater — 2026-10-27
 

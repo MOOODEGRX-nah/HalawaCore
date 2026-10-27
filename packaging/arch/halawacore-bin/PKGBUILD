@@ -1,7 +1,7 @@
 # Maintainer: MOOODEGRX-nah <https://github.com/MOOODEGRX-nah/HalawaCore/issues>
 # Packaging recipe: MIT; see LICENSE. Upstream application: MIT.
 pkgname=halawacore-bin
-pkgver=0.6.0
+pkgver=0.6.1
 pkgrel=1
 pkgdesc='Local CPU topology and reversible process-affinity analyzer'
 arch=('x86_64')
@@ -19,7 +19,7 @@ source=(
   'LICENSE'
 )
 sha256sums=(
-  '2a0b93ab372897a807b48f7917b82afb1c172b4b2b18703a636cd4e20b98f775'
+  '4833beffbe6af037ab7ebe9d186b9334c345d1a61006eec71b01d7b4fb8a725b'
   '06c5bfa9a0b220a0a4df5b729bec201eea3acbaff32d4968239bc01d5cbeae1b'
   '2c6b4ed65388fbc179bdd3afec45fa5828284a18d1fe2874976d536cfc5515af'
   '5f0d73a2a84662105dff22f3d2348451a370f9e1ac56299e19c488ddd5d9f12b'
