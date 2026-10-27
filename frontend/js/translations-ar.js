@@ -1,5 +1,6 @@
 // Arabic UI copy. Keys are the exact English source text; runtime data is not translated.
 export const ar = {
+  "Change selection": "تغيير الاختيار",
   "HalawaCore · CPU topology & affinity": "HalawaCore · طوبولوجيا المعالج وتوزيع الأنوية",
   "Skip to content": "تجاوز إلى المحتوى",
   "CPU PERFORMANCE TOOLKIT": "أدوات تحليل أداء المعالج",
@@ -502,5 +503,25 @@ export const ar = {
   "parent": "الأم",
   "verify the actual game manually": "تحقق من عملية اللعبة الفعلية يدويًا",
   "Allowed:": "المسموح:",
-  "Relative distances:": "المسافات النسبية:"
+  "Relative distances:": "المسافات النسبية:",
+  "Process selection": "اختيار العمليات",
+  "Clear process selection": "مسح اختيار العمليات",
+  "Plan selected processes →": "تخطيط التوزيع للمحدد ←",
+  "Select visible processes": "تحديد العمليات الظاهرة",
+  "Selected processes": "العمليات المحددة",
+  "Existing threads of all selected processes": "الخيوط الحالية لجميع العمليات المحددة",
+  "Common eligible OS CPUs": "أنوية النظام المشتركة المسموح بها",
+  "Select up to 32 processes. Search and refresh keep your selection. Only explicitly selected processes and their existing threads are included.": "حدد حتى 32 عملية. يبقى الاختيار عند البحث والتحديث، وتشمل التجربة العمليات المحددة صراحة وخيوطها الحالية فقط.",
+  "Select at most 32 processes per experiment.": "يمكن تحديد 32 عملية كحد أقصى لكل تجربة.",
+  "Some selected processes exited or changed identity and were removed. Review your selection.": "انتهت بعض العمليات المحددة أو تغيرت هويتها وأزيلت من الاختيار. راجع اختيارك.",
+  "A selected process exited or changed identity. Review your selection again.": "انتهت إحدى العمليات المحددة أو تغيرت هويتها. راجع اختيارك من جديد.",
+  "The same CPU set applies to the existing threads of every selected process. Only CPUs shared by all current task masks are available.": "تطبق مجموعة الأنوية نفسها على الخيوط الحالية لكل عملية محددة. تتاح فقط الأنوية المشتركة المسموح بها لجميع المهام الحالية.",
+  "Scheduler default means leaving each process unchanged. Performance Lab records the first selected process only.": "يعني الوضع الافتراضي للمجدول إبقاء توزيع كل عملية كما هو. يسجل مختبر الأداء العملية الأولى المحددة فقط.",
+  "Performance Lab records the first selected process only.": "يسجل مختبر الأداء العملية الأولى المحددة فقط.",
+  "No common eligible CPUs remain. Change your process selection or restore earlier experiments.": "لا توجد أنوية مشتركة مسموح بها. غيّر اختيار العمليات أو استعد التجارب السابقة.",
+  "For multiple processes, build a shared CPU set below. No performance gain is guaranteed.": "لعدة عمليات، اختر مجموعة أنوية مشتركة أدناه. لا يوجد تحسن مضمون في الأداء.",
+  "Explicit process targets require the selected-process scope.": "يتطلب تحديد العمليات استخدام نطاق العمليات المحددة.",
+  "Select between 1 and 32 explicit processes without another task scope.": "حدد من عملية واحدة إلى 32 عملية صراحة دون نطاق مهام آخر.",
+  "Each selected PID must appear exactly once.": "يجب أن يظهر رقم كل عملية محددة مرة واحدة فقط.",
+  "The primary process must be included in the explicit selection.": "يجب أن تكون العملية الأولى ضمن الاختيار الصريح."
 };

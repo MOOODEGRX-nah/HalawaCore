@@ -32,7 +32,7 @@ export async function renderProfiles(){
   document.querySelectorAll('[data-load]').forEach(el=>el.onclick=()=>{
     if(!state.process){toast('Select a running process in Applications first.');navigate('applications');return;}
     const p=data.profiles[Number(el.dataset.load)];
-    if(p.cpus.some(c=>!state.topology.online_cpus.includes(c)||!state.process.affinity.includes(c))){toast('Profile includes offline CPUs or CPUs outside this process affinity. Select a fresh CPU set.',true);return;}
+    if(p.cpus.some(c=>!state.topology.online_cpus.includes(c)||!(state.plannerAllowed??state.process.affinity).includes(c))){toast('Profile includes offline CPUs or CPUs outside this process affinity. Select a fresh CPU set.',true);return;}
     if(p.generation!==state.topology.generation)toast('Topology or scheduling data changed since this profile was saved. Review the CPU mapping carefully.');
     state.selected=new Set(p.cpus);navigate('planner');
   });

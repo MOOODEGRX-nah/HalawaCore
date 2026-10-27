@@ -20,4 +20,8 @@ assert.equal(translate('الإصدار v0.3.0 متاح من مستودع الم�
 assert.equal(translate('SHARED L3','ar'),'كاش L3 مشترك');
 assert.equal(translate('SHARED L3','en'),'SHARED L3');
 assert.equal(translate('HalawaCore-Windows-x64.zip','ar'),'HalawaCore-Windows-x64.zip');
+assert.equal(translateText('2 processes selected','ar'),'2 عمليات محددة');
+assert.equal(translateText('Select process PID 123','ar'),'تحديد العملية PID 123');
+assert.equal(translateText('Plan selected processes →','ar'),'تخطيط التوزيع للمحدد ←');
+assert.equal(translateText('selected','ar'),'العمليات المحددة');
 console.log('Arabic/English translation contracts passed; CPU IDs and filenames preserved.');

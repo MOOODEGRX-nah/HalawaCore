@@ -1,5 +1,12 @@
 # Validation — HalawaCore
 
+## 0.4.0 multiple-process affinity — 2026-10-27
+
+- 109 Python tests pass, including unrelated explicit targets, per-thread CPU limits, read-only/confirmation gates, complete validation before writes, stale/reused identities, denied access, partial application and restoration of distinct masks. A real API integration changes only two owned disposable children, verifies restoration and leaves a third child untouched.
+- JavaScript contracts verify selection identity reconciliation, shared CPU intersection, offline/unverified masks and Arabic/English controls. Browser checks use synthetic process/topology fixtures; no real user process is changed.
+- Interface checks cover selection across search, refresh and language changes; removal of exited selections; common-mask and no-common-CPU states; exact three-task/two-process preview; read-only application blocking; and synthetic application/restoration.
+- Native packaged self-tests now preview, apply, verify and individually restore two owned disposable children on supported systems. Physical Windows 10/11 and X3D hardware claims remain limited to the evidence described below.
+
 ## Arch/CachyOS packaging — 2026-10-27
 
 - Built `halawacore-bin-0.3.2-1-x86_64.pkg.tar.zst` with the installed CachyOS `makepkg`, downloading the official immutable release URL and verifying all four SHA-256 entries. No package was installed on the host.

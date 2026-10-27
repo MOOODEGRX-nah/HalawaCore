@@ -70,7 +70,7 @@ def create_app(data_dir=None, reader=None, processes=None, control=None, metrics
             if row['status'] != 'restored':
                 affinity.restore(ident)
 
-    app = FastAPI(title='HalawaCore', version='0.3.2', lifespan=lifespan, docs_url=None, redoc_url=None)
+    app = FastAPI(title='HalawaCore', version='0.4.0', lifespan=lifespan, docs_url=None, redoc_url=None)
     app.add_middleware(LocalSecurity, token=token)
     app.state.affinity, app.state.processes, app.state.lab = affinity, processes, lab
     app.state.topology = topology
@@ -90,7 +90,7 @@ def create_app(data_dir=None, reader=None, processes=None, control=None, metrics
 
     @app.get('/api/session')
     def session():
-        return {'token': token, 'settings': settings, 'preferences': preferences, 'desktop': shutdown is not None, 'version': '0.3.2'}
+        return {'token': token, 'settings': settings, 'preferences': preferences, 'desktop': shutdown is not None, 'version': '0.4.0'}
 
     @app.get('/api/health')
     def health():
@@ -148,7 +148,8 @@ def create_app(data_dir=None, reader=None, processes=None, control=None, metrics
 
     @app.post('/api/affinity/preview')
     def preview(body: Preview):
-        return affinity.preview(body.pid, body.identity, body.cpus, body.scope, [t.model_dump() for t in body.related], body.task_tid)
+        return affinity.preview(body.pid, body.identity, body.cpus, body.scope,
+            [t.model_dump() for t in body.related], body.task_tid, [t.model_dump() for t in body.targets])
 
     @app.post('/api/affinity/apply')
     def apply(body: Apply):

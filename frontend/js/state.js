@@ -1,6 +1,6 @@
 export const state = {
   token: '', settings: {read_only:true,display_offset:1}, topology:null, metrics:null,
-  system:null, page:'dashboard', process:null, selected:new Set(), recommendations:[],
+  system:null, page:'dashboard', process:null, targets:[], processSelection:new Map(), plannerAllowed:null, selected:new Set(), recommendations:[],
   history:[], refresh: Number(localStorage.getItem('refresh') || 3), numbering: localStorage.getItem('numbering') || 'linux',
 };
 export const esc = value => String(value ?? '—').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));

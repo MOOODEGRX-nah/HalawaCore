@@ -3,6 +3,7 @@ import {bi,getLanguage} from './i18n.js';
 
 const feature=(en,ar,descriptionEn,descriptionAr,whenEn,whenAr,limitEn,limitAr)=>({title:[en,ar],description:[descriptionEn,descriptionAr],when:[whenEn,whenAr],limit:[limitEn,limitAr]});
 export const topics={
+  multi:feature('Select multiple processes','اختيار عدة عمليات','Use the checkboxes in Running processes, then Plan selected processes. Search and refresh preserve up to 32 explicitly chosen process identities.','استخدم مربعات الاختيار في العمليات الجارية، ثم تخطيط التوزيع للمحدد. يحتفظ البحث والتحديث بما يصل إلى 32 عملية محددة بهوياتها.','For several apps or several processes belonging to one app, review the exact PIDs and existing threads together before applying one shared CPU set.','لعدة تطبيقات أو عدة عمليات لتطبيق واحد، راجع أرقام العمليات وخيوطها الحالية معًا قبل تطبيق مجموعة أنوية مشتركة.','Only CPUs permitted for every included task are available. Exited or reused processes require review. New children are not followed; Performance Lab records only the first process.','تتاح فقط الأنوية المسموح بها لكل مهمة مشمولة. تحتاج العمليات المنتهية أو المعاد استخدام أرقامها إلى مراجعة. لا تتبع التجربة العمليات الجديدة؛ ويسجل مختبر الأداء العملية الأولى فقط.'),
   dashboard:feature('Dashboard','لوحة التحكم','An overview of your actual processor, visible cores, current utilization and shared cache.','ملخص لمعالجك الفعلي والأنوية الظاهرة والاستخدام الحالي والكاش المشترك.','Start here to understand what the operating system exposes.','ابدأ هنا لفهم المعلومات التي يكشفها نظام التشغيل.','A usage percentage is activity, not proof of faster applications.','نسبة الاستخدام تعبّر عن النشاط، ولا تثبت أن التطبيق أصبح أسرع.'),
   topology:feature('CPU topology & SMT','طوبولوجيا المعالج وخيوط SMT','A physical core can contain several logical hardware threads. SMT siblings share a physical core; they are not separate physical cores.','قد تحتوي النواة الفعلية على عدة خيوط منطقية. خيوط SMT الشقيقة تشترك في النواة، وليست أنوية فعلية منفصلة.','Use the map and table to see each core, its siblings and the operating-system CPU IDs.','استخدم الخريطة والجدول لرؤية كل نواة وخيوطها الشقيقة وأرقام المعالجات في النظام.','CPU numbering is not assumed to be sequential or split into equal halves. Missing relationships remain unverified.','لا يُفترض أن ترقيم المعالجات متتابع أو مقسوم إلى نصفين متساويين. العلاقات الناقصة تبقى غير مؤكدة.'),
   applications:feature('Applications & processes','التطبيقات والعمليات','The explorer lists accessible running processes, their identities, parent relationships, thread counts, memory and observed affinity.','يعرض المستكشف العمليات المتاحة وهوياتها وعلاقاتها بالعمليات الأم وعدد خيوطها وذاكرتها وتوزيع أنويتها المرصود.','Select the actual running process you want to analyze, then review its executable and threads.','اختر العملية الفعلية التي تريد تحليلها، ثم راجع ملفها التنفيذي وخيوطها.','Similar names do not establish a relationship. Protected or inaccessible processes remain read-only.','تشابه الأسماء لا يثبت وجود علاقة. العمليات المحمية أو غير المتاحة تبقى للقراءة فقط.'),
@@ -22,6 +23,7 @@ export const topics={
 const text=pair=>getLanguage()==='ar'?pair[1]:pair[0];
 let activeTopic=null,search='';
 function topicFor(title){
+  if(/Selected processes|Process selection|Select visible processes/i.test(title))return 'multi';
   if(/SMT/i.test(title))return 'topology';
   if(/CPPC|Rank|preferred/i.test(title))return 'cppc';
   if(/NUMA|Node/i.test(title))return 'numa';
@@ -38,6 +40,7 @@ function topicFor(title){
 export function attachHelp(){
   const selectors='.page-heading h1,.panel-head h2,.panel-head h3,.settings-row h3,th';
   document.querySelectorAll(selectors).forEach(element=>{
+    if(element.matches('th.process-check'))return;
     if(element.querySelector('.help-button')||element.closest('[data-no-i18n],#feature-help,#welcome-guide'))return;
     const title=element.textContent.trim();
     const button=document.createElement('button');button.type='button';button.className='help-button';button.textContent='?';

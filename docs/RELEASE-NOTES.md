@@ -1,19 +1,19 @@
 ## العربية
 
-- إصلاح خطأ فتح المتصفح على Linux الذي قد يظهر برسالة `undefined symbol: rl_trim_arg_from_keyseq` على أنظمة مثل CachyOS.
-- عزل مسار مكتبات البرنامج عن مشغّل متصفح النظام.
-- إظهار رابط الواجهة المحلية دائمًا في الطرفية، مع استمرار البرنامج إذا تعذّر فتح المتصفح تلقائيًا.
-- تشغيل يدوي بالخيار `--no-browser` وإغلاق عادي عند استخدام Ctrl+C.
-- تضمين إرشادات Linux المحدّثة، مع بقاء القراءة فقط افتراضيًا والتأكيد والاستعادة لكل تجربة.
+- تحديد حتى 32 عملية من صفحة التطبيقات باستخدام مربعات الاختيار، مع تحديد الظاهر ومسح الاختيار وإزالة عملية منفردة.
+- بقاء الاختيارات عند البحث والتحديث، مع إزالة العمليات المنتهية أو التي تغيرت هويتها والتنبيه لذلك.
+- مخطط مشترك يعرض العمليات المحددة والأنوية المسموح بها لكل خيوطها الحالية، ثم معاينة واحدة وتأكيد صريح للتطبيق.
+- استعادة التوزيع الأصلي المستقل لكل خيط، ورفض المعاينة القديمة أو الصلاحيات غير الكافية قبل بدء الكتابة؛ تظل النتائج الجزئية والاستعادة مرئية عند حدوث تغيّر أثناء التطبيق.
+- دعم العربية والإنجليزية وشرح الميزة داخل المساعدة. يسجل مختبر الأداء العملية الأولى المحددة فقط، ولا تتبع التجربة الخيوط أو العمليات الجديدة تلقائيًا.
 
-تتطلب نسخة Linux معمارية x86_64 ومكتبة glibc 2.35 أو أحدث ومتصفحًا مثبتًا. تُرفق تقارير التحقق مع الملفات التنفيذية. لا توجد مكاسب أداء مضمونة، وتبقى قيود Windows وبيانات X3D غير المؤكدة كما هي.
+يتضمن الإصدار إصلاح فتح المتصفح على Linux. يبدأ البرنامج للقراءة فقط، ولا يضمن توزيع الأنوية تحسن الأداء. تتطلب نسخة Linux معمارية x86_64 وglibc 2.35+ ومتصفحًا مثبتًا. تظل قيود Windows متعددة المجموعات وCPU Sets وبيانات X3D غير المؤكدة كما هي.
 
 ## English
 
-- Fix Linux browser launch failures such as `undefined symbol: rl_trim_arg_from_keyseq` on newer systems including CachyOS.
-- Restore the system browser launcher's original library search path without changing the backend environment.
-- Always print the local interface URL and keep the app running when automatic browser launch fails.
-- Support manual startup with `--no-browser` and clean Ctrl+C shutdown.
-- Include updated Linux guidance while retaining default read-only mode, confirmation and restoration for affinity experiments.
+- Select up to 32 running processes with checkboxes, filtered select-all, clear selection and individual removal.
+- Preserve selections across search and refresh; remove exited or changed process identities with a notice.
+- Use a shared planner bounded by every included current task's permitted CPUs, then review one exact-task preview and explicitly confirm application.
+- Restore each thread's individual original mask. Stale identities, masks and permissions are checked before writes; runtime races can still produce visible partial results with restoration records.
+- Include Arabic/English controls and help. Performance Lab records the first selected process only; new threads or child processes are not tracked automatically.
 
-Linux requires x86_64, glibc 2.35+ and an installed browser. Verification reports are included with executable archives. Performance gains are not guaranteed. Existing Windows restrictions and unverified X3D data remain explicit.
+The Linux browser-launch fix is retained. The app starts read-only and affinity restrictions do not guarantee better performance. Linux requires x86_64, glibc 2.35+ and an installed browser. Windows processor-group/CPU Set limitations and unverified X3D states remain explicit.

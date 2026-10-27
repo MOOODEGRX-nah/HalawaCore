@@ -64,6 +64,8 @@ chmod u+x "$HOME/Applications/HalawaCore/HalawaCore" &&
 
 ### الخصائص
 
+- تحديد حتى 32 عملية من قائمة التطبيقات، مع بقاء الاختيار عند البحث والتحديث، ثم معاينة وتطبيق مجموعة أنوية مشتركة على خيوطها الحالية واستعادة التوزيع الأصلي لكل خيط. لا تُضاف عمليات جديدة أو تطبيقات مشابهة الاسم تلقائيًا.
+
 - عرض الأنوية الفعلية، وخيوط المعالجة الشقيقة، والمقابس، وعقد الذاكرة ومجموعات كاش المستوى الثالث اعتمادًا على معلومات نظام التشغيل.
 - تحليل محافظ لمعالجات AMD المزودة بتقنية X3D؛ تبقى مجموعات الكاش منفصلة عن معرّفات الشرائح، وتظهر المعلومات غير المؤكدة بوضوح بدل تخمينها.
 - اكتشاف معلومات الأنوية المفضلة وتفضيل الكاش أو التردد على Linux عندما يكشفها النظام، وعرضها للقراءة فقط.
@@ -179,6 +181,8 @@ Only if archive tools or browser integration are missing, use the command for yo
 The executable requires `x86_64`, `glibc 2.35+` and an installed browser. Fedora Atomic, openSUSE MicroOS and Alpine need separate guidance; package commands above target conventional mutable systems. See the [detailed Linux guide](docs/LINUX-START.md) or [interactive guide with copy buttons](https://mooodegrx-nah.github.io/HalawaCore/app.html?lang=en&guide=linux).
 
 ### Features
+
+- Select up to 32 running processes across search and refresh, preview one shared CPU set for their existing threads, and restore each thread's original mask. New processes and similar names are never included automatically.
 
 - Physical cores, SMT siblings, packages, NUMA nodes and shared L3 domains from operating-system evidence.
 - Conservative AMD X3D detection. Cache domains remain separate from die/CCD identifiers, and insufficient evidence stays explicitly unverified.

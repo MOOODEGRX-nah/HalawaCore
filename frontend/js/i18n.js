@@ -16,6 +16,7 @@ const extra={
   'Open the full guide →':'فتح الدليل الكامل ←',
   'M — HalawaCore logo':'شعار M — HalawaCore','registered':'مسجّل',
   'topology':'الطوبولوجيا','l3 cache':'كاش L3','cppc':'CPPC','preferred core':'الأنوية المفضلة','frequency':'التردد','capacity classes':'فئات السعة',
+  'selected':'العمليات المحددة',
   'main':'المهمة الافتراضية','task':'خيط محدد','threads':'الخيوط الحالية','related':'العمليات المختارة',
 };
 export const getLanguage=()=>language;
@@ -26,6 +27,10 @@ export function translateText(value,lang=language){
   let translated=extra[trimmed]??ar[trimmed];
   if(translated===undefined){
     const rules=[
+      [/^(\d+) recorded tasks$/,m=>`${m[1]} مهام مسجلة`],
+      [/^(\d+) processes selected$/,m=>`${m[1]} عمليات محددة`],
+      [/^Select process PID (\d+)$/,m=>`تحديد العملية PID ${m[1]}`],
+      [/^Remove process PID (\d+)$/,m=>`إزالة العملية PID ${m[1]}`],
       [/^Core (\d+)$/,m=>`النواة ${m[1]}`], [/^CPU group (\d+)$/,m=>`مجموعة المعالج ${m[1]}`],
       [/^CPU ([A-Za-z0-9:]+)$/,m=>`المعالج ${m[1]}`],
       [/^OS IDs (.*)$/,m=>`أرقام النظام ${m[1]}`],

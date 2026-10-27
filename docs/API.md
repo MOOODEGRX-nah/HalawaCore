@@ -30,7 +30,7 @@ Errors use `{"error":{"message":"..."}}`; invalid fields additionally return `fi
 | GET | `/api/processes/{pid}/threads` | Existing TIDs, task start identities and current affinities |
 | GET | `/api/applications` | Installed XDG/Flatpak entries, exact executable/PID matches when available, unsupported launch status |
 | POST | `/api/recommendations` | `{pid, identity, workload, restrictions?}` → bounded profiles, explanations, confidence, CPU/KDE sets, SMT included/excluded mappings, warnings and generation |
-| POST | `/api/affinity/preview` | `{pid, identity, cpus, scope, related?, task_tid?}` → exact original per-task masks and single-use `preview_id`, valid for 60 seconds |
+| POST | `/api/affinity/preview` | `{pid, identity, cpus, scope, related?, task_tid?, targets?}` → exact original per-task masks and single-use `preview_id`, valid for 60 seconds |
 | POST | `/api/affinity/apply` | `{preview_id, confirmed:true}` → per-task kernel verification and restoration record |
 | POST | `/api/affinity/restore` | `{experiment_id}` → restored or partial_restore per recorded task; works in read-only mode |
 | GET | `/api/experiments` | Current-session affinity records and performance recordings |
@@ -49,9 +49,10 @@ Scopes:
 - `main`: selected PID's main task only (default).
 - `task`: one explicit `task_tid` from that process's currently existing thread list.
 - `threads`: currently existing threads of the selected process.
+- `selected`: between 1 and 32 explicit `{pid,identity}` targets, including the primary `{pid,identity}`, with all currently accessible threads of each. Processes may be unrelated. Duplicate PIDs, omitted primary targets and mixed scope fields are rejected. Every process is ownership/identity checked; every task must permit the requested CPUs. The whole batch is validated before any write. Runtime races can still produce a partial result, with each original mask retained for restoration.
 - `related`: selected process and explicitly supplied related `{pid,identity}` pairs, with each process's existing threads. Current ownership and observed parent-child relationship are checked; similar names do not qualify.
 
-The backend refuses empty sets and CPUs outside any affected task's existing mask. It validates online CPUs again via topology generation and verifies the accepted kernel masks. New threads or processes may not be covered.
+The backend refuses empty sets and CPUs outside any affected task's existing mask. It validates online CPUs again via topology generation and verifies the accepted kernel masks. New threads or processes may not be covered. Batch previews and records include the explicit `targets`; an unrelated process is never added by executable name or ancestry.
 
 Workloads: `gaming`, `competitive gaming`, `browsing`, `communication`, `encoding`, `rendering`, `compilation`, `streaming`, `ai inference`, `background`, `custom`, `unknown`.
 

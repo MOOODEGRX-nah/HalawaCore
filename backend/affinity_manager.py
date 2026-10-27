@@ -29,8 +29,12 @@ class AffinityManager:
             os.chmod(out.name, 0o600)
             out.write(json.dumps(record, sort_keys=True) + '\n')
 
-    def preview(self, pid, identity, cpus, scope='main', related=None, task_tid=None):
+    def preview(self, pid, identity, cpus, scope='main', related=None, task_tid=None, selected=None):
         with self.lock:
+            if scope not in ('main', 'task', 'threads', 'related', 'selected'):
+                raise HalawaCoreError('Unknown experiment scope.')
+            if selected and scope != 'selected':
+                raise HalawaCoreError('Explicit process targets require the selected-process scope.')
             if not cpus:
                 raise HalawaCoreError('An empty CPU selection cannot be applied.')
             topology = self.topology()
@@ -39,6 +43,14 @@ class AffinityManager:
                 raise HalawaCoreError('The selection contains offline or unknown CPUs.')
             self.processes.owned(pid, identity)
             targets = [(pid, identity)]
+            if scope == 'selected':
+                if not selected or len(selected) > 32 or related or task_tid is not None:
+                    raise HalawaCoreError('Select between 1 and 32 explicit processes without another task scope.')
+                targets = [(target['pid'], target['identity']) for target in selected]
+                if len({target[0] for target in targets}) != len(targets):
+                    raise HalawaCoreError('Each selected PID must appear exactly once.')
+                if (pid, identity) not in targets:
+                    raise HalawaCoreError('The primary process must be included in the explicit selection.')
             if scope == 'related':
                 observed = {r['pid']: r['identity'] for r in self.processes.related(pid)['related']}
                 for target in related or []:
@@ -69,6 +81,7 @@ class AffinityManager:
             if len(self.previews) >= 128:
                 self.previews.pop(next(iter(self.previews)))
             preview = {'preview_id': token, 'pid': pid, 'identity': identity, 'scope': scope,
+                'targets': [{'pid': leader, 'identity': start} for leader, start in targets],
                 'requested': sorted(requested), 'tasks': tasks, 'generation': topology['generation'],
                 'expires': now + 60, 'expires_in_seconds': 60,
                 'warnings': ['New threads and child processes are not tracked by this one-time operation.',
@@ -105,6 +118,7 @@ class AffinityManager:
                 raise HalawaCoreError('Restore the active experiment on these tasks before starting another.', 409)
             ident = secrets.token_hex(12)
             record = {'id': ident, 'created_at': time.time(), 'scope': preview['scope'],
+                'targets': preview['targets'],
                 'requested': preview['requested'], 'tasks': [dict(t, state='pending') for t in preview['tasks']],
                 'status': 'active'}
             self.records[ident] = record

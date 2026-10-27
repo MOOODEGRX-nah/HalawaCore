@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.0 — 2026-10-27
+
+- Select up to 32 running processes with checkboxes, filtered select-all, selection chips and a shared affinity planner. Search and refresh preserve verified identities.
+- Preview all selected processes and existing threads together, limit choices to their common eligible CPUs, and preserve individual masks for restoration. Stale identities and changed masks invalidate application before writes.
+- Add Arabic/English controls and help, cross-platform batch tests and packaged two-child self-tests. Performance Lab continues recording only the primary selected process.
+
 ## Packaging — 2026-10-27
 
 - Prepare an Arch/CachyOS `halawacore-bin` recipe for the verified 0.3.2 binary, with fixed SHA-256 checks, terminal command, bilingual desktop entry and the supplied M logo.

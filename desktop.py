@@ -67,25 +67,30 @@ def self_test(url):
     topology=request_json(url,'/api/cpu/topology')
     assert topology['logical_cpu_count']>0
     args=[sys.executable,'--test-child'] if getattr(sys,'frozen',False) else [sys.executable,str(Path(__file__).resolve()),'--test-child']
-    child=subprocess.Popen(args)
+    children=[subprocess.Popen(args) for _ in range(2)]
     result={'platform':platform.system(),'application':'HalawaCore','topology':'ok','logical_cpus':topology['logical_cpu_count'],'affinity':'not run'}
     try:
-        process=request_json(url,f'/api/processes/{child.pid}')['root']
-        original=process['affinity']
-        if original and topology.get('affinity_support')=='available':
-            selected=min(original)
-            preview=request_json(url,'/api/affinity/preview',token,{'pid':child.pid,'identity':process['identity'],'cpus':[selected],'scope':'threads'})
+        processes=[request_json(url,f'/api/processes/{child.pid}')['root'] for child in children]
+        originals={process['pid']:process['affinity'] for process in processes}
+        if all(originals.values()) and topology.get('affinity_support')=='available':
+            selected=min(set.intersection(*(set(cpus) for cpus in originals.values())))
+            targets=[{'pid':process['pid'],'identity':process['identity']} for process in processes]
+            preview=request_json(url,'/api/affinity/preview',token,{**targets[0],'cpus':[selected],'scope':'selected','targets':targets})
+            assert {task['pid'] for task in preview['tasks']}==set(originals)
             request_json(url,'/api/settings',token,{'read_only':False,'display_offset':topology['display_cpu_offset']})
             record=request_json(url,'/api/affinity/apply',token,{'preview_id':preview['preview_id'],'confirmed':True})
             assert record['status']=='active',record
-            assert all(t['accepted']==[selected] for t in record['tasks'])
+            assert all(task['accepted']==[selected] for task in record['tasks'])
             restored=request_json(url,'/api/affinity/restore',token,{'experiment_id':record['id']})
             assert restored['status']=='restored',restored
-            result['affinity']='owned child apply, kernel verification and restore passed'
+            for process in processes:
+                assert request_json(url,f"/api/processes/{process['pid']}")['root']['affinity']==originals[process['pid']]
+            result['affinity']='two explicitly selected owned children: apply, kernel verification and individual restore passed'
         else:
             result['affinity']='read-only: target scheduling state is unsupported or unverified'
     finally:
-        child.terminate();child.wait(timeout=10)
+        for child in children:
+            child.terminate();child.wait(timeout=10)
         request_json(url,'/api/settings',token,{'read_only':True,'display_offset':topology['display_cpu_offset']})
     return result
 

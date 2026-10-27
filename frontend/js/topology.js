@@ -1,7 +1,7 @@
 import {state,esc,fmt,list,heading,panel,bytes,toast,download} from './state.js';
 
 export function coreGrid(selectable=false) {
-  const allowed=new Set(state.process?.affinity || state.topology.analyzer_allowed_cpus);
+  const allowed=new Set((selectable?state.plannerAllowed:null) ?? state.process?.affinity ?? state.topology.analyzer_allowed_cpus);
   return `<div class="core-grid">${state.topology.cores.map((core,i)=>{
     const active=core.logical_cpus.some(c=>state.selected.has(c));
     return `<article class="core ${selectable&&active?'selected':''}" data-core="${i}">

@@ -25,13 +25,15 @@ jobs:
       - name: Install build dependencies
         run: python -m pip install -r requirements-build.txt
       - name: Check interface languages
-        run: node tests/languages.mjs
+        run: |
+          node tests/languages.mjs
+          node tests/process-selection.mjs
       - name: Linux tests
         if: runner.os == 'Linux'
         run: python -m pytest -q
       - name: Windows topology fixtures
         if: runner.os == 'Windows'
-        run: python -m pytest -q tests/test_windows.py tests/test_desktop_launch.py
+        run: python -m pytest -q tests/test_windows.py tests/test_desktop_launch.py tests/test_multi_affinity.py
       - name: Build executable
         run: python build_desktop.py
       - name: Verify Linux executable

@@ -19,9 +19,10 @@ class Target(Input):
 
 class Preview(Target):
     cpus: CpuSet
-    scope: Literal['main', 'task', 'threads', 'related'] = 'main'
+    scope: Literal['main', 'task', 'threads', 'related', 'selected'] = 'main'
     task_tid: Pid | None = None
     related: Annotated[list[Target], Field(max_length=128)] = []
+    targets: Annotated[list[Target], Field(max_length=32)] = []
 
 
 class Apply(Input):
