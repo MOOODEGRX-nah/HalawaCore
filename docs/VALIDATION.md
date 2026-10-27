@@ -1,10 +1,15 @@
 # Validation — HalawaCore
 
+## 0.6.1 target-system TLS trust — 2026-10-27
+
+A real frozen 0.6.0 update check on CachyOS exposed an Ubuntu-compiled OpenSSL CA path absent on the target. The same executable succeeds with the host CA bundle explicitly supplied. The updater now selects an existing target-system Linux CA file, honors explicit SSL_CERT_FILE/SSL_CERT_DIR settings, and retains the Windows default store. Added contracts keep hostname verification and CERT_REQUIRED enabled; no TLS bypass is used. Native verification follows publication below.
+
 ## 0.6.0 explicit in-app updater — 2026-10-27
 
 - 158 Linux/Python tests pass. Updater fixtures cover stable-version ordering, fixed addresses and mandatory digests, archive traversal/links, corrupted and changed files, backup/rollback, private windowed version probes, package authorization cancellation and fixed non-shell commands.
 - API checks cover no network at startup/status, CSRF, forbidden URL fields, explicit confirmation, stale jobs, active recordings/unrestored records and mutation blocking while installing. No installed application or system package is changed by tests.
-- Native bundled helper and CI package validation are recorded after publishing the immutable release.
+- Native 0.6.0 CI passed 158 Linux tests and 79 Windows tests. Both packaged binaries passed version-probe/replacement/backup checks; Windows verified waiting for its owned old process and image-lock release. The Arch container built the package with makepkg and verified byte-for-byte preservation of the Linux executable. No actual installed package was replaced by those tests. Run: https://github.com/MOOODEGRX-nah/HalawaCore/actions/runs/40484670725
+- A real GitHub download was independently verified on CachyOS: an owned portable copy of 0.5.0 updated to 0.6.0 with its backup and stored language preferences preserved. The native Arch release SHA-256 was verified. System authorization and installation on the user's system are intentionally left to their explicit launcher click.
 
 ## 0.5.0 measurement comparison and CPU display — 2026-10-27
 

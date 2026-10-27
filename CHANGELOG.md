@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.1 — 2026-10-27
+
+- Use the target Linux system CA bundle for verified update HTTPS instead of relying on an OpenSSL certificate path compiled on Ubuntu. Preserve explicit certificate overrides and Windows certificate-store behavior. Certificate and hostname validation remain enabled.
+
 ## 0.6.0 — 2026-10-27
 
 - Add explicit in-app update checks, verified downloads, release notes, installation confirmation and restart in Settings, with Arabic/English guidance.

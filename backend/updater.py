@@ -7,6 +7,7 @@ import os
 import platform
 import re
 import shutil
+import ssl
 import stat
 import subprocess
 import sys
@@ -86,12 +87,29 @@ class ReleaseRedirect(urllib.request.HTTPRedirectHandler):
         return super().redirect_request(request, fp, code, message, headers, new_url)
 
 
+def system_ssl_context():
+    """Use the target OS trust bundle, rather than the build OS's compiled OpenSSL path."""
+    cafile, capath = os.environ.get('SSL_CERT_FILE'), os.environ.get('SSL_CERT_DIR')
+    if cafile or capath:
+        return ssl.create_default_context(cafile=cafile or None, capath=capath or None)
+    if platform.system() == 'Linux':
+        for candidate in ('/etc/ssl/certs/ca-certificates.crt', '/etc/ssl/cert.pem',
+                          '/etc/pki/tls/certs/ca-bundle.crt', '/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem',
+                          '/var/lib/ca-certificates/ca-bundle.pem'):
+            if Path(candidate).is_file():
+                return ssl.create_default_context(cafile=candidate)
+    # Windows uses its normal certificate stores; validation is never disabled.
+    return ssl.create_default_context()
+
+
 class ReleaseClient:
     def __init__(self):
-        self.opener = urllib.request.build_opener(ReleaseRedirect())
+        self.opener = None
 
     def open(self, url):
         if not trusted_url(url): raise HalawaCoreError('Untrusted update address.', 409)
+        if self.opener is None:
+            self.opener = urllib.request.build_opener(ReleaseRedirect(), urllib.request.HTTPSHandler(context=system_ssl_context()))
         request = urllib.request.Request(url, headers={'User-Agent': f'HalawaCore-updater/{VERSION}', 'Accept': 'application/vnd.github+json' if url == RELEASE_API else 'application/octet-stream'})
         return self.opener.open(request, timeout=20)
 

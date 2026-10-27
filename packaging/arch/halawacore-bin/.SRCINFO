@@ -1,6 +1,6 @@
 pkgbase = halawacore-bin
 	pkgdesc = Local CPU topology and reversible process-affinity analyzer
-	pkgver = 0.5.0
+	pkgver = 0.6.0
 	pkgrel = 1
 	url = https://github.com/MOOODEGRX-nah/HalawaCore
 	arch = x86_64
@@ -10,15 +10,16 @@ pkgbase = halawacore-bin
 	depends = xdg-utils
 	depends = hicolor-icon-theme
 	depends = polkit
-	provides = halawacore=0.5.0
+	depends = ca-certificates
+	provides = halawacore=0.6.0
 	conflicts = halawacore
 	options = !strip
 	options = !debug
-	source = HalawaCore-0.5.0-Linux-x64.tar.gz::https://github.com/MOOODEGRX-nah/HalawaCore/releases/download/v0.5.0/HalawaCore-Linux-x64.tar.gz
+	source = HalawaCore-0.6.0-Linux-x64.tar.gz::https://github.com/MOOODEGRX-nah/HalawaCore/releases/download/v0.6.0/HalawaCore-Linux-x64.tar.gz
 	source = halawacore.desktop
 	source = halawacore.svg
 	source = LICENSE
-	sha256sums = 7bd83e7d58f35165427d149a680dafbc05a5d9eb28eb77e260b3430f2ef857b8
+	sha256sums = 2a0b93ab372897a807b48f7917b82afb1c172b4b2b18703a636cd4e20b98f775
 	sha256sums = 06c5bfa9a0b220a0a4df5b729bec201eea3acbaff32d4968239bc01d5cbeae1b
 	sha256sums = 2c6b4ed65388fbc179bdd3afec45fa5828284a18d1fe2874976d536cfc5515af
 	sha256sums = 5f0d73a2a84662105dff22f3d2348451a370f9e1ac56299e19c488ddd5d9f12b

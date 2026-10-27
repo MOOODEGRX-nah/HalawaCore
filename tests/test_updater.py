@@ -181,3 +181,31 @@ def test_sources_and_unsupported_architectures_do_not_offer_installation():
     assert not trusted_url('https://github.com.evil.test/file')
     assert not trusted_url('https://user:password@github.com/file')
     assert trusted_url('https://release-assets.githubusercontent.com/asset?token=test')
+
+
+def test_frozen_linux_uses_target_os_ca_bundle_not_ubuntu_build_path(monkeypatch):
+    import backend.updater as module
+    monkeypatch.delenv('SSL_CERT_FILE',raising=False);monkeypatch.delenv('SSL_CERT_DIR',raising=False)
+    monkeypatch.setattr(module.platform,'system',lambda:'Linux')
+    monkeypatch.setattr(module.Path,'is_file',lambda path:path.as_posix()=='/etc/ssl/cert.pem')
+    create=Mock();monkeypatch.setattr(module.ssl,'create_default_context',create)
+    module.system_ssl_context()
+    create.assert_called_once_with(cafile='/etc/ssl/cert.pem')
+
+
+def test_explicit_ca_settings_are_honored_and_windows_keeps_system_store(monkeypatch):
+    import backend.updater as module
+    create=Mock();monkeypatch.setattr(module.ssl,'create_default_context',create)
+    monkeypatch.setenv('SSL_CERT_FILE','/custom/ca.pem');monkeypatch.setenv('SSL_CERT_DIR','/custom/certs')
+    module.system_ssl_context();create.assert_called_once_with(cafile='/custom/ca.pem',capath='/custom/certs')
+    create.reset_mock();monkeypatch.delenv('SSL_CERT_FILE');monkeypatch.delenv('SSL_CERT_DIR')
+    monkeypatch.setattr(module.platform,'system',lambda:'Windows')
+    module.system_ssl_context();create.assert_called_once_with()
+
+
+def test_update_tls_context_keeps_certificate_and_hostname_validation():
+    import ssl
+    from backend.updater import system_ssl_context
+    context=system_ssl_context()
+    assert context.check_hostname is True
+    assert context.verify_mode==ssl.CERT_REQUIRED

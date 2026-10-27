@@ -26,12 +26,12 @@ HalawaCore برنامج محلي مفتوح المصدر لتحليل طوبول
 
 ### التحديث من داخل البرنامج
 
-بدءًا من **0.6.0**، افتح **الإعدادات ← تحديث البرنامج**: تحقق من وجود تحديث، ثم نزّله وتحقق منه، وراجع التغييرات وأكّد التثبيت. أعد التشغيل عند الطلب. لا توجد فحوص تلقائية في الخلفية، ولا تُرسل بيانات المعالج أو العمليات إلى GitHub.
+بدءًا من **0.6.1**، افتح **الإعدادات ← تحديث البرنامج**: تحقق من وجود تحديث، ثم نزّله وتحقق منه، وراجع التغييرات وأكّد التثبيت. أعد التشغيل عند الطلب. لا توجد فحوص تلقائية في الخلفية، ولا تُرسل بيانات المعالج أو العمليات إلى GitHub.
 
 - **CachyOS / Arch:** يستخدم التحديث حزمة Arch الرسمية للإصدار عبر `pacman` ونافذة صلاحيات النظام. يبقى البرنامج نفسه بحسابك العادي؛ إلغاء الصلاحيات يعرض حالة فشل واضحة.
 - **Linux وWindows بنسخة محمولة:** يُحدّث الملف التنفيذي في مجلد قابل للكتابة، وتُحفظ نسخة `.previous` احتياطية. على Windows يغلق مساعد التحديث النسخة القديمة بعد موافقتك ويعيد فتح الجديدة؛ لا يقتل عمليات أخرى.
 - أوقف التسجيل واستعد التجارب أولًا، وصدّر القياسات قبل إعادة التشغيل. تبقى ملفات تفضيلات اللغة والملفات المحفوظة في مجلد البيانات.
-- النسخ الأقدم من 0.6.0 تحتاج تثبيت هذا الإصدار مرة واحدة لتظهر أزرار التحديث. نسخ المصدر والتثبيتات التي يديرها مدير حزم آخر تعرض صفحة الإصدار الرسمية بدل استبدال ملفاتها.
+- النسخ الأقدم من 0.6.1 تحتاج تثبيت هذا الإصدار مرة واحدة لتظهر أزرار التحديث. نسخ المصدر والتثبيتات التي يديرها مدير حزم آخر تعرض صفحة الإصدار الرسمية بدل استبدال ملفاتها.
 
 يُستخدم إصدار مستقر من مستودع المشروع الثابت فقط، مع تحقق SHA-256 المنشور على GitHub وفحص رقم إصدار الملف. هذا ليس توقيعًا رقميًا مستقلًا. لا يغيّر المحدّث BIOS أو برامج تشغيل المعالج أو أوضاع الجدولة.
 
@@ -163,12 +163,12 @@ Executables bundle the runtime; users do not need Python or terminal commands. T
 
 ### In-app updates
 
-Starting with **0.6.0**, open **Settings → Application updates**: check, download and verify, review release notes, explicitly install, and restart when prompted. No background checks run automatically, and hardware/process data is not sent to GitHub.
+Starting with **0.6.1**, open **Settings → Application updates**: check, download and verify, review release notes, explicitly install, and restart when prompted. No background checks run automatically, and hardware/process data is not sent to GitHub.
 
 - **CachyOS / Arch:** install the release's verified Arch package through `pacman` and the system authorization dialog. HalawaCore stays unprivileged; cancelling authorization reports a clear failed state.
 - **Portable Linux / Windows:** replace the executable in a writable installation folder and retain a `.previous` backup. On Windows a staged helper waits for the old app to exit and reopens the updated app; it never terminates unrelated processes.
 - Stop recording, restore experiments and export measurements first. Stored language preferences and saved profiles remain in the data folder.
-- Versions older than 0.6.0 need a one-time installation of this release to obtain the updater. Source checkouts and installations owned by another package manager link to the official release instead of overwriting managed files.
+- Versions older than 0.6.1 need a one-time installation of this release to obtain the updater. Source checkouts and installations owned by another package manager link to the official release instead of overwriting managed files.
 
 Only stable releases from the fixed project repository are selected. GitHub's SHA-256 digest and the executable version are checked; this is not an independent digital signature. BIOS, CPU drivers and scheduler modes are not modified.
 
