@@ -1,4 +1,4 @@
-HalawaCore 0.3.0 — العربية
+HalawaCore 0.3.1 — العربية
 
 هذه نسخة محمولة؛ لا تحتاج تثبيت بايثون أو كتابة أوامر.
 Windows 10 / 11 بمعمارية x64: فك ضغط الملف وافتح HalawaCore.exe.
@@ -20,7 +20,7 @@ Linux بمعمارية x64: فك الضغط وافتح HalawaCore من مدير 
 ----------------------------------------
 English
 
-HalawaCore 0.3.0 — portable desktop application
+HalawaCore 0.3.1 — portable desktop application
 
 No Python installation or terminal commands are needed for this executable release.
 

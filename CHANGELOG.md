@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.1 — 2026-10-27
+
+- Keep keyboard skip links accessible without creating horizontal overflow in RTL/LTR layouts.
+- Preserve website routes with both branch-based and Actions-based Pages publishing.
+
 ## 0.3.0 — 2026-10-26
 
 - Approved M logo and red-and-black website/application styling, including the Windows executable icon.
