@@ -1,5 +1,13 @@
 # Validation — HalawaCore
 
+## Arch/CachyOS packaging — 2026-10-27
+
+- Built `halawacore-bin-0.3.2-1-x86_64.pkg.tar.zst` with the installed CachyOS `makepkg`, downloading the official immutable release URL and verifying all four SHA-256 entries. No package was installed on the host.
+- Inspected package metadata and file lists with `pacman -Qip/-Qlp`; checked the `/usr/bin/halawacore` symlink, file permissions and the bilingual desktop entry with `desktop-file-validate`.
+- Extracted the finished package in an owned workspace. Its executable SHA-256 exactly matches the upstream release payload. Its packaged browser regression passes clean-shell launching, failed-browser fallback, manual URL startup and graceful Ctrl+C without launching a real browser or modifying affinity.
+- Regenerated `.SRCINFO` matches the checked-in copy. The source package includes only the recipe, metadata, desktop entry, logo and license. The SVG embeds the user's logo bytes unchanged with the correct JPEG media type. Language contracts still pass.
+- AUR RPC and the official Arch package search returned no matching package at preparation time. The owner has no AUR account yet, so publication, a clean `paru` installation and repository-driven updates remain unverified. GitHub documents this status explicitly. Fedora RPM packaging is not included.
+
 ## Download-guide-only presentation — 2026-10-27
 
 Linux extraction, launch and troubleshooting command blocks now render only inside the download dialog. The standalone page section and its extra link are removed. The guide explicitly explains the fixed readline/browser failure and manual startup with version 0.3.2 or later. Shared `guide=linux` URLs and previously shared `#linux-commands` links open the dialog at the Linux instructions step. Normal page navigation stays usable after closing it.

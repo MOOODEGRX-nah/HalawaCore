@@ -24,6 +24,10 @@ HalawaCore برنامج محلي مفتوح المصدر لتحليل طوبول
 
 النسخ التنفيذية تتضمن بيئة التشغيل؛ لا تحتاج تثبيت بايثون أو كتابة أوامر. الموقع يقدّم التعريف والتحميل، بينما يعمل تحليل جهازك والتحكم الاختياري في العمليات داخل البرنامج المحلي. لا تُرفع بيانات العتاد أو العمليات تلقائيًا.
 
+### التثبيت بمدير الحزم على CachyOS / Arch
+
+جهّزنا حزمة `halawacore-bin` لتثبيت البرنامج والاعتماديات واختصار قائمة التطبيقات في مسارات النظام المعتادة. **الحزمة غير منشورة في AUR بعد**؛ يحتاج النشر حساب AUR ومفتاح SSH، ولا يكفي رفع الملفات إلى GitHub. يتضمن [دليل حزمة Arch](docs/ARCH-PACKAGE.md) طريقة البناء والتثبيت الآن وخطوات إتاحتها لاحقًا عبر `paru`. Fedora يحتاج حزمة RPM منفصلة؛ دليل التنزيل المحمول متاح أدناه.
+
 ### أوامر Linux: CachyOS وFedora وتوزيعات أخرى
 
 حمّل `HalawaCore-Linux-x64.tar.gz` من صفحة الإصدارات، ثم افتح الطرفية داخل المجلد الذي يحتوي الملف. لا تحتاج تثبيت بايثون للنسخة المحمولة. الأوامر التالية تفك الأرشيف داخل مجلدك الشخصي وتمنح إذن التنفيذ ثم تشغّل البرنامج:
@@ -135,6 +139,10 @@ HalawaCore is a local, open-source CPU topology and affinity analyzer. Inspect p
 7. For an optional affinity experiment, deliberately enable experiments, review the affected tasks and confirm the preview. Stop recording and restore all experiments before clicking **Quit HalawaCore**. Closing the browser tab alone does not stop the local backend.
 
 Executables bundle the runtime; users do not need Python or terminal commands. The website provides information and downloads. Hardware analysis and optional process controls run in the local application. Hardware and process data is not uploaded automatically.
+
+### Package-manager installation on CachyOS / Arch
+
+The `halawacore-bin` recipe installs the application, dependencies and menu entry into standard system locations. **It has not been published to AUR.** Publication requires an AUR account and SSH key; GitHub hosting alone is insufficient. The [Arch package guide](docs/ARCH-PACKAGE.md) explains building/installing now and publishing for future `paru` installs. Fedora needs separate RPM packaging; portable-download instructions remain below.
 
 ### Linux commands: CachyOS, Fedora and other distributions
 

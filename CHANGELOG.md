@@ -1,5 +1,11 @@
 # Changelog
 
+## Packaging — 2026-10-27
+
+- Prepare an Arch/CachyOS `halawacore-bin` recipe for the verified 0.3.2 binary, with fixed SHA-256 checks, terminal command, bilingual desktop entry and the supplied M logo.
+- Document local installation and AUR publication separately; the package is not yet published to AUR.
+- Exclude packaging-only changes from native executable release builds.
+
 ## 0.3.2 — 2026-10-27
 
 - Restore the original Linux library search path only for the external browser launcher, fixing bundled readline conflicts on newer systems such as CachyOS.

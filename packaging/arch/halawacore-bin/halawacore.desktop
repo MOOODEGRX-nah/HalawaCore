@@ -1,0 +1,15 @@
+[Desktop Entry]
+Type=Application
+Name=HalawaCore
+GenericName=CPU topology and affinity analyzer
+GenericName[ar]=محلل المعالج وتوزيع العمليات على الأنوية
+Comment=Inspect your CPU and preview reversible affinity experiments
+Comment[ar]=افحص المعالج وعاين تجارب توزيع العمليات مع إمكانية الاستعادة
+Exec=halawacore
+TryExec=halawacore
+Icon=halawacore
+Terminal=false
+Categories=System;Monitor;
+Keywords=CPU;topology;affinity;X3D;SMT;
+Keywords[ar]=معالج;أنوية;أداء;كاش;
+StartupNotify=false
