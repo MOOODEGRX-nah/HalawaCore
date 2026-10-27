@@ -34,7 +34,7 @@ chmod u+x "$HOME/Applications/HalawaCore/HalawaCore" &&
 | Ubuntu / Debian / Linux Mint | `sudo apt update && sudo apt install tar gzip xdg-utils` |
 | openSUSE (Zypper) | `sudo zypper install tar gzip xdg-utils` |
 
-تتطلب النسخة معمارية `x86_64` ومكتبة `glibc 2.35` أو أحدث ومتصفحًا مثبتًا. أنظمة Fedora Atomic وopenSUSE MicroOS وتوزيعات Alpine تحتاج إرشادات منفصلة؛ أوامر تثبيت الحزم أعلاه للأنظمة التقليدية. راجع [دليل Linux المفصل](LINUX-START.md) أو [الدليل التفاعلي مع أزرار النسخ](https://mooodegrx-nah.github.io/HalawaCore/app.html?lang=ar#linux-commands).
+تتطلب النسخة معمارية `x86_64` ومكتبة `glibc 2.35` أو أحدث ومتصفحًا مثبتًا. أنظمة Fedora Atomic وopenSUSE MicroOS وتوزيعات Alpine تحتاج إرشادات منفصلة؛ أوامر تثبيت الحزم أعلاه للأنظمة التقليدية. راجع [دليل Linux المفصل](LINUX-START.md) أو [الدليل التفاعلي مع أزرار النسخ](https://mooodegrx-nah.github.io/HalawaCore/app.html?lang=ar&guide=linux).
 
 #### التحقق قبل التشغيل
 
@@ -90,7 +90,7 @@ Only if archive tools or browser integration are missing, use the command for yo
 | Ubuntu / Debian / Linux Mint | `sudo apt update && sudo apt install tar gzip xdg-utils` |
 | openSUSE (Zypper) | `sudo zypper install tar gzip xdg-utils` |
 
-The executable requires `x86_64`, `glibc 2.35+` and an installed browser. Fedora Atomic, openSUSE MicroOS and Alpine need separate guidance; package commands above target conventional mutable systems. See the [detailed Linux guide](LINUX-START.md) or [interactive guide with copy buttons](https://mooodegrx-nah.github.io/HalawaCore/app.html?lang=en#linux-commands).
+The executable requires `x86_64`, `glibc 2.35+` and an installed browser. Fedora Atomic, openSUSE MicroOS and Alpine need separate guidance; package commands above target conventional mutable systems. See the [detailed Linux guide](LINUX-START.md) or [interactive guide with copy buttons](https://mooodegrx-nah.github.io/HalawaCore/app.html?lang=en&guide=linux).
 
 #### Check before launching
 

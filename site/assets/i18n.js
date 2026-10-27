@@ -6,7 +6,7 @@ if(!['ar','en'].includes(language))language='ar';
 const originals=new WeakMap(),attrs=new WeakMap();
 const additional={
   'شعار M — HalawaCore':'M logo — HalawaCore',
-  'أوامر CachyOS وFedora وتوزيعات Linux':'CachyOS, Fedora and Linux commands','اللغة':'Language','دليل التحميل والبداية':'Download and first-use guide',
+  'اللغة':'Language','دليل التحميل والبداية':'Download and first-use guide',
 };
 const arabicGraphics={'PORTABLE · x64':'نسخة محمولة · x64','HALAWACORE / DESKTOP':'HALAWACORE / البرنامج المحلي','MIT License':'ترخيص MIT','01 / TOPOLOGY':'01 / الطوبولوجيا','02 / APPLICATIONS':'02 / التطبيقات','03 / X3D AWARENESS':'03 / دعم X3D','04 / PERFORMANCE LAB':'04 / مختبر الأداء','05 / REVERSIBLE EXPERIMENTS':'05 / تجارب قابلة للاستعادة','HalawaCore / Local workspace':'HalawaCore / مساحة العمل المحلية','TOPOLOGY':'الطوبولوجيا','SHARED L3':'كاش L3 مشترك','PHYSICAL CORES':'الأنوية الفعلية','LOGICAL THREADS':'الخيوط المنطقية','Physical core':'نواة فعلية','CPU A':'المعالج A','CPU B':'المعالج B','YOUR HARDWARE. YOUR CALL.':'عتادك. قرارك.'};
 export const getLanguage=()=>language;

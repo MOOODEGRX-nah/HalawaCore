@@ -9,6 +9,9 @@
 
 ## Documentation — 2026-10-27
 
+- Keep Linux command blocks exclusively inside the website download guide; shared links open that guide.
+- Add bilingual troubleshooting for the fixed browser/readline conflict and manual startup.
+
 - Added copyable Linux extraction, execution-permission and launch commands to the download guide.
 - Added CachyOS/Arch, Fedora, Ubuntu/Debian/Mint and openSUSE package-tool guidance and explicit compatibility limits.
 - Added a bilingual Linux startup document and README instructions.

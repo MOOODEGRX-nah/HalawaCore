@@ -1,5 +1,9 @@
 # Validation — HalawaCore
 
+## Download-guide-only presentation — 2026-10-27
+
+Linux extraction, launch and troubleshooting command blocks now render only inside the download dialog. The standalone page section and its extra link are removed. The guide explicitly explains the fixed readline/browser failure and manual startup with version 0.3.2 or later. Shared `guide=linux` URLs and previously shared `#linux-commands` links open the dialog at the Linux instructions step. Normal page navigation stays usable after closing it.
+
 ## 0.3.2 Linux browser launch regression — 2026-10-27
 
 The user's exact `/bin/sh: undefined symbol: rl_trim_arg_from_keyseq` failure was reproduced by launching the local system shell with the previously published executable's bundled readline/ncurses libraries. The same shell exits successfully with system libraries.

@@ -2,7 +2,7 @@ import {L,getLanguage,localize} from './i18n.js';
 import {renderLinuxGuide} from './linux-guide.js';
 const escape=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let dialog,selection=null,step=0;
-const guideKey=platform=>`halawacore-download-guide-${platform==='linux'?'v4':'v3'}-${platform}`;
+const guideKey=platform=>`halawacore-download-guide-${platform==='linux'?'v5':'v3'}-${platform}`;
 const remembered=platform=>localStorage.getItem(guideKey(platform))==='read';
 function content(){
   const windows=selection.platform==='windows',os=windows?'Windows':'Linux';
@@ -28,7 +28,11 @@ function render(){
   dialog.querySelector('#download-guide-progress').setAttribute('aria-label',L('خطوات دليل التحميل','Download guide steps'));
   dialog.querySelector('#download-guide-step').textContent=L(`الخطوة ${step+1} من 4`,`Step ${step+1} of 4`);
   const body=dialog.querySelector('#download-guide-content');
-  if(selection.platform==='linux'&&step===1){body.innerHTML='<div data-linux-guide></div>';renderLinuxGuide(body.firstElementChild);}
+  if(selection.platform==='linux'&&step===1){
+    let guide=body.querySelector('[data-linux-guide]');
+    if(!guide){body.innerHTML='<div data-linux-guide></div>';guide=body.firstElementChild;}
+    renderLinuxGuide(guide);
+  }
   else body.innerHTML=`<h3>${escape(data.title)}</h3><p>${escape(data.description)}</p><div class="guide-note">${escape(data.note)}</div>`;
   dialog.querySelector('#download-guide-progress').innerHTML=Array.from({length:4},(_,i)=>`<li ${i===step?'aria-current="step"':''} class="${i<=step?'active':''}"><span>${i+1}</span></li>`).join('');
   const back=dialog.querySelector('#download-guide-back');back.textContent=L('السابق','Back');back.hidden=step===0;
@@ -39,11 +43,11 @@ function render(){
   dialog.querySelector('[data-site-language]').value=getLanguage();
   localize();
 }
-function open(link,force=false){
+function open(link,force=false,startAt=0){
   const platform=link.closest('[data-platform]').dataset.platform;
   if(!force&&remembered(platform))return false;
-  selection={platform,link};step=0;dialog.querySelector('#download-guide-remember').checked=false;
-  render();dialog.showModal();return true;
+  selection={platform,link};step=startAt;dialog.querySelector('#download-guide-remember').checked=false;
+  render();if(!dialog.open)dialog.showModal();return true;
 }
 export function initDownloadGuide(){
   if(!document.querySelector('[data-download]'))return;
@@ -64,4 +68,13 @@ export function initDownloadGuide(){
     if(help){event.preventDefault();open(help.closest('[data-platform]').querySelector('[data-download]'),true);}
   });
   document.addEventListener('halawacore-site-language',()=>{if(dialog.open)render();});
+  function openSharedGuide(includeQuery=false){
+    const url=new URL(location.href);
+    if((includeQuery&&url.searchParams.get('guide')==='linux')||['#linux-commands','#linux-guide'].includes(url.hash)){
+      const link=document.querySelector('[data-platform="linux"] [data-download]');
+      if(link)open(link,true,1);
+    }
+  }
+  window.addEventListener('hashchange',()=>openSharedGuide());
+  openSharedGuide(true);
 }
