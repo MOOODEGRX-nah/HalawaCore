@@ -24,4 +24,7 @@ assert.equal(translateText('2 processes selected','ar'),'2 عمليات محدد
 assert.equal(translateText('Select process PID 123','ar'),'تحديد العملية PID 123');
 assert.equal(translateText('Plan selected processes →','ar'),'تخطيط التوزيع للمحدد ←');
 assert.equal(translateText('selected','ar'),'العمليات المحددة');
+assert.equal(translateText('CPU · device share','ar'),'المعالج · من إجمالي الجهاز');
+assert.equal(translateText('Before / after / difference','ar'),'قبل / بعد / الفرق');
+assert.equal(translateText('● Record before','ar'),'● تسجيل قبل التعديل');
 console.log('Arabic/English translation contracts passed; CPU IDs and filenames preserved.');

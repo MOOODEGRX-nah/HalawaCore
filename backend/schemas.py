@@ -44,6 +44,11 @@ class Recording(Target):
     interval: Annotated[float, Field(ge=0.5, le=60)] = 2
 
 
+class Comparison(Input):
+    before_id: Annotated[str, Field(pattern=r'^[0-9a-f]{32}$')]
+    after_id: Annotated[str, Field(pattern=r'^[0-9a-f]{32}$')]
+
+
 class Profile(Input):
     name: Annotated[str, Field(min_length=1, max_length=80)]
     cpus: CpuSet

@@ -90,6 +90,36 @@ def test_recording_real_owned_subprocess(client):
         recordings=client.post('/api/experiments/stop',json={},headers=headers(client)).json()['recordings']
         assert recordings[0]['summary']['sample_count']>=1
         assert recordings[0]['samples'][0]['affinity']==sorted(os.sched_getaffinity(child.pid))
+        sample=recordings[0]['samples'][-1]
+        assert sample['online_cpus']
+        assert sample['process_cpu_percent_device']==sample['process_cpu_percent']/len(sample['online_cpus'])
         assert os.sched_getaffinity(child.pid)==set(p['affinity'])
     finally:
         child.terminate();child.wait(timeout=5)
+
+
+def test_comparison_api_is_local_readonly_and_rejects_mismatched_processes(client):
+    from test_measurements import recording
+    before,after=recording(),recording('b','experiment',40,400)
+    client.app.state.lab.records=[before,after]
+    body={'before_id':before['id'],'after_id':after['id']}
+    assert client.post('/api/experiments/compare',json=body).status_code==403
+    response=client.post('/api/experiments/compare',json=body,headers=headers(client))
+    assert response.status_code==200
+    assert response.json()['metrics']['average_process_device_percent']['difference']==-25
+    assert client.get('/api/health').json()['read_only'] is True
+    assert client.get('/api/experiments').json()['affinity']==[]
+    after['identity']='reused'
+    assert client.post('/api/experiments/compare',json=body,headers=headers(client)).status_code==409
+    assert client.post('/api/experiments/compare',json={**body,'after_id':'c'*32},headers=headers(client)).status_code==404
+    assert client.post('/api/experiments/compare',json={**body,'after_id':'bad'},headers=headers(client)).status_code==422
+
+
+def test_process_list_exposes_raw_and_device_share_without_changing_affinity(client):
+    response=client.get(f'/api/processes?q={os.getpid()}').json()
+    count=response['cpu_capacity']['logical_cpu_count']
+    assert count==len(set(response['cpu_capacity']['online_cpus']))
+    for row in response['processes']:
+        if row['cpu_percent'] is None: assert row['cpu_percent_device'] is None
+        else: assert row['cpu_percent_device']==row['cpu_percent']/count
+        assert row['cpu_capacity_logical_count']==count

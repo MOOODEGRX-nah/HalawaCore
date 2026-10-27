@@ -24,6 +24,14 @@ HalawaCore برنامج محلي مفتوح المصدر لتحليل طوبول
 
 النسخ التنفيذية تتضمن بيئة التشغيل؛ لا تحتاج تثبيت بايثون أو كتابة أوامر. الموقع يقدّم التعريف والتحميل، بينما يعمل تحليل جهازك والتحكم الاختياري في العمليات داخل البرنامج المحلي. لا تُرفع بيانات العتاد أو العمليات تلقائيًا.
 
+### مقارنة قبل التعديل وبعده وعرض استهلاك المعالج
+
+في **مختبر الأداء**، سجّل قبل التعديل ثم أوقف التسجيل، وغيّر التوزيع من المخطط باختيارك، ثم سجّل المشهد والإعدادات نفسها بعد التعديل وأوقف التسجيل. يظهر جدول **قبل / بعد / الفرق** تلقائيًا، مع منحنيين بمحاذاة الزمن، ومتوسط الاستهلاك وذروته والذاكرة والخيوط والأنوية المرصودة. يُفضّل 30 ثانية على الأقل لكل مرحلة. المقارنة لنفس العملية وهوية بدايتها فقط؛ بعد إعادة تشغيل اللعبة تحتاج قياسًا أساسيًا جديدًا. صدّر القياسات قبل إغلاق جلسة البرنامج.
+
+تعرض قائمة العمليات افتراضيًا النسبة من إجمالي المعالجات المنطقية المتصلة الظاهرة للنظام. تعادل **800%** في العرض التقليدي استخدام **8 معالجات منطقية مكافئة**؛ ومع 16 معالجًا منطقيًا متصلًا تعادل **50% من الجهاز**. يمكن اختيار العرض التقليدي أيضًا. لا يقيس ذلك عدد الأنوية الفعلية، ولا يعدل النسبة حسب حصص الحاويات أو حدود التوزيع. راجع [شرح psutil الرسمي](https://psutil.io/faq/#can-process-cpu-percent-return-a-value-higher-than-100).
+
+تُعرض فروق النسب بالنقاط المئوية؛ انخفاض استخدام المعالج وحده لا يثبت زيادة FPS أو تحسن زمن الإطار. لا يجمع هذا الإصدار FPS أو زمن الإطار. تسميات قبل وبعد يدوية، وتغيّر القدرة المتصلة يمنع المقارنة؛ وتظهر تحذيرات إذا تغيّر التوزيع أثناء التسجيل أو اختلفت مدد القياس كثيرًا.
+
 ### التثبيت بمدير الحزم على CachyOS / Arch
 
 جهّزنا حزمة `halawacore-bin` لتثبيت البرنامج والاعتماديات واختصار قائمة التطبيقات في مسارات النظام المعتادة. **الحزمة غير منشورة في AUR بعد**؛ يحتاج النشر حساب AUR ومفتاح SSH، ولا يكفي رفع الملفات إلى GitHub. يتضمن [دليل حزمة Arch](docs/ARCH-PACKAGE.md) طريقة البناء والتثبيت الآن وخطوات إتاحتها لاحقًا عبر `paru`. Fedora يحتاج حزمة RPM منفصلة؛ دليل التنزيل المحمول متاح أدناه.
@@ -141,6 +149,14 @@ HalawaCore is a local, open-source CPU topology and affinity analyzer. Inspect p
 7. For an optional affinity experiment, deliberately enable experiments, review the affected tasks and confirm the preview. Stop recording and restore all experiments before clicking **Quit HalawaCore**. Closing the browser tab alone does not stop the local backend.
 
 Executables bundle the runtime; users do not need Python or terminal commands. The website provides information and downloads. Hardware analysis and optional process controls run in the local application. Hardware and process data is not uploaded automatically.
+
+### Before/after comparison and CPU utilization display
+
+In **Performance Lab**, record before, stop, deliberately change affinity in the planner, then repeat the same scene/settings, record after and stop. The **Before / after / difference** table appears automatically with elapsed-time-aligned curves, average/peak CPU activity, memory, threads and observed masks. Prefer at least 30 seconds per phase. Comparison requires the same PID and start identity; record a new baseline if the game restarts. Export measurements before closing the backend session.
+
+The process list defaults to a share of all online logical CPUs visible to the OS. Conventional **800%** represents **8 logical CPU equivalents**; on a device with 16 online logical CPUs it is **50% device share**. The conventional view remains selectable. This is not a physical-core count and is not adjusted for container quotas or affinity limits. See the [official psutil explanation](https://psutil.io/faq/#can-process-cpu-percent-return-a-value-higher-than-100).
+
+Differences in percentages are percentage points; lower CPU activity alone does not prove higher FPS or better frame times. This release does not collect FPS or frame times. Phase labels are manual. Changed online capacity blocks comparison; unstable affinity and substantially different durations produce warnings.
 
 ### Package-manager installation on CachyOS / Arch
 

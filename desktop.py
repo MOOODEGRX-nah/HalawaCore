@@ -86,6 +86,23 @@ def self_test(url):
             for process in processes:
                 assert request_json(url,f"/api/processes/{process['pid']}")['root']['affinity']==originals[process['pid']]
             result['affinity']='two explicitly selected owned children: apply, kernel verification and individual restore passed'
+            measured=[]
+            for phase in ('baseline','experiment'):
+                request_json(url,'/api/experiments/start',token,{**targets[0],'phase':phase,'interval':.5})
+                deadline=time.monotonic()+10
+                while time.monotonic()<deadline:
+                    recording=request_json(url,'/api/experiments')['recordings'][-1]
+                    if recording['summary']['valid_process_samples']>=2:break
+                    if recording['status']!='recording':raise RuntimeError('Packaged recording stopped unexpectedly.')
+                    time.sleep(.1)
+                else:raise RuntimeError('Packaged recording did not produce valid CPU samples.')
+                recording=request_json(url,'/api/experiments/stop',token,{})['recordings'][-1]
+                measured.append(recording['id'])
+            comparison=request_json(url,'/api/experiments/compare',token,{'before_id':measured[0],'after_id':measured[1]})
+            assert comparison['pid']==targets[0]['pid']
+            assert comparison['metrics']['average_process_device_percent']['before'] is not None
+            result['comparison']='owned-child before/after recording, normalized CPU share and comparison passed; no performance claim'
+
         else:
             result['affinity']='read-only: target scheduling state is unsupported or unverified'
     finally:

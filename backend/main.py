@@ -20,7 +20,8 @@ from .experiment_manager import ExperimentManager
 from .process_manager import ProcessManager
 from .profile_manager import ProfileManager
 from .recommendation_engine import recommend
-from .schemas import Apply, Preview, Profile, Recommendation, Recording, Restore, Settings, Preferences, TopologyResponse
+from .schemas import Apply, Preview, Profile, Recommendation, Recording, Comparison, Restore, Settings, Preferences, TopologyResponse
+from .measurement_summary import cpu_capacity
 from .security import LocalSecurity
 from .task_control import LinuxTaskControl, WindowsTaskControl
 
@@ -50,7 +51,7 @@ def create_app(data_dir=None, reader=None, processes=None, control=None, metrics
 
     metrics = metrics_factory()
     affinity = AffinityManager(processes, topology, data_dir, control)
-    lab = ExperimentManager(processes, metrics_factory(), control)
+    lab = ExperimentManager(processes, metrics_factory(), control, topology)
     profiles = ProfileManager(data_dir)
     preferences = {'language': None}
     preferences_path = data_dir / 'preferences.json'
@@ -70,7 +71,7 @@ def create_app(data_dir=None, reader=None, processes=None, control=None, metrics
             if row['status'] != 'restored':
                 affinity.restore(ident)
 
-    app = FastAPI(title='HalawaCore', version='0.4.0', lifespan=lifespan, docs_url=None, redoc_url=None)
+    app = FastAPI(title='HalawaCore', version='0.5.0', lifespan=lifespan, docs_url=None, redoc_url=None)
     app.add_middleware(LocalSecurity, token=token)
     app.state.affinity, app.state.processes, app.state.lab = affinity, processes, lab
     app.state.topology = topology
@@ -90,7 +91,7 @@ def create_app(data_dir=None, reader=None, processes=None, control=None, metrics
 
     @app.get('/api/session')
     def session():
-        return {'token': token, 'settings': settings, 'preferences': preferences, 'desktop': shutdown is not None, 'version': '0.4.0'}
+        return {'token': token, 'settings': settings, 'preferences': preferences, 'desktop': shutdown is not None, 'version': '0.5.0'}
 
     @app.get('/api/health')
     def health():
@@ -114,7 +115,10 @@ def create_app(data_dir=None, reader=None, processes=None, control=None, metrics
 
     @app.get('/api/processes')
     def process_list(q: str = Query('', max_length=200)):
-        return {'processes': processes.listing(q)}
+        rows = processes.listing(q)
+        online = topology()['online_cpus']
+        return {'processes': [{**row, **cpu_capacity(row['cpu_percent'], online)} for row in rows],
+                'cpu_capacity': {'online_cpus': online, 'logical_cpu_count': len(set(online)) or None}}
 
     @app.get('/api/processes/{pid}')
     def process_detail(pid: int):
@@ -170,6 +174,10 @@ def create_app(data_dir=None, reader=None, processes=None, control=None, metrics
     @app.post('/api/experiments/stop')
     def stop():
         return {'recordings': lab.stop()}
+
+    @app.post('/api/experiments/compare')
+    def compare(body: Comparison):
+        return lab.compare(body.before_id, body.after_id)
 
     @app.get('/api/profiles')
     def profile_list():

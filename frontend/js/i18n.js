@@ -27,6 +27,7 @@ export function translateText(value,lang=language){
   let translated=extra[trimmed]??ar[trimmed];
   if(translated===undefined){
     const rules=[
+      [/^Recording · (\d+) samples · (\d+) s$/,m=>`جارٍ التسجيل · ${m[1]} عينات · ${m[2]} ثوانٍ`],
       [/^(\d+) recorded tasks$/,m=>`${m[1]} مهام مسجلة`],
       [/^(\d+) processes selected$/,m=>`${m[1]} عمليات محددة`],
       [/^Select process PID (\d+)$/,m=>`تحديد العملية PID ${m[1]}`],
@@ -38,7 +39,7 @@ export function translateText(value,lang=language){
       [/^TID (\d+) · OS IDs (.*)$/,m=>`TID ${m[1]} · أرقام النظام ${m[2]}`],
       [/^(.*?) · (\d+) arguments \(hidden for privacy\)$/,m=>`${m[1]} · ${m[2]} معاملات مخفية للخصوصية`],
       [/^OS CPU (\d+) · Display ([A-Za-z0-9:]+) · (Online|Offline|Outside current affinity)$/,m=>`معالج النظام ${m[1]} · الرقم المعروض ${m[2]} · ${translateText(m[3],lang)}`],
-      [/^(total_percent|process_cpu_percent) over time, from real system samples$/,m=>m[1]==='total_percent'?'استخدام المعالج عبر الزمن من عينات فعلية':'استخدام العملية عبر الزمن من عينات فعلية'],
+      [/^(total_percent|process_cpu_percent|process_cpu_percent_device) over time, from real system samples$/,m=>m[1]==='total_percent'?'استخدام المعالج عبر الزمن من عينات فعلية':'استخدام العملية عبر الزمن من عينات فعلية'],
       [/^(.+): (available|partially available|unknown|unsupported|permission restricted)$/,m=>`${translateText(m[1],lang)}: ${translateText(m[2],lang)}`],
       [/^L3 domain (\d+)$/,m=>`مجموعة كاش L3 ${m[1]}`],
       [/^Socket (.*?) · (\d+)T$/,m=>`المقبس ${m[1]} · ${m[2]} خيوط`],

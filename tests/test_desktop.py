@@ -14,4 +14,6 @@ def test_desktop_self_test_only_owned_child(tmp_path):
     data=json.loads(report.read_text())
     assert data['application']=='HalawaCore'
     assert data['topology']=='ok'
-    if sys.platform!='win32':assert 'passed' in data['affinity']
+    if sys.platform!='win32':
+        assert 'passed' in data['affinity']
+        assert 'comparison passed' in data['comparison']

@@ -1,5 +1,12 @@
 # Validation — HalawaCore
 
+## 0.5.0 measurement comparison and CPU display — 2026-10-27
+
+- 132 Linux/Python tests pass. New coverage verifies 800% / 16 = 50%, sparse IDs, unavailable/invalid capacity, elapsed-interval weighting, zero baselines, signed percentage-point changes, process reuse/mismatch, phase ordering, incomplete samples, changed online capacity and descriptive warnings. Comparison API checks enforce local CSRF protection and leave affinity state unchanged.
+- Source desktop self-test records and compares two real phases of an owned disposable child after its affinity is restored; process CPU share is verified without claiming a speed improvement.
+- Browser checks use synthetic fixtures, verify both percentage modes (50% versus 800%), preserve the raw reading, and display matching before/after values, signed differences and aligned curves in Arabic and English. Screenshots contain synthetic measurements only. No user game is modified or benchmarked.
+- Native CI and Arch recipe validation are recorded after the immutable release is published.
+
 ## 0.4.0 multiple-process affinity — 2026-10-27
 
 - 109 Python tests pass, including unrelated explicit targets, per-thread CPU limits, read-only/confirmation gates, complete validation before writes, stale/reused identities, denied access, partial application and restoration of distinct masks. A real API integration changes only two owned disposable children, verifies restoration and leaves a third child untouched.

@@ -35,6 +35,7 @@ Errors use `{"error":{"message":"..."}}`; invalid fields additionally return `fi
 | POST | `/api/affinity/restore` | `{experiment_id}` → restored or partial_restore per recorded task; works in read-only mode |
 | GET | `/api/experiments` | Current-session affinity records and performance recordings |
 | POST | `/api/experiments/start` | `{pid, identity, phase, interval}` → start recording; does not modify affinity |
+| POST | `/api/experiments/compare` | `{before_id, after_id}` → signed descriptive differences for completed recordings of the same PID/start identity, with consistent verified online CPU capacity |
 | POST | `/api/experiments/stop` | `{}` → stop active recording and return recordings |
 | GET | `/api/profiles` | Saved, manually loaded CPU sets |
 | POST | `/api/profiles` | `{name, cpus, generation, note?}` → saved profile; does not apply |
@@ -73,3 +74,11 @@ with httpx.Client(base_url="http://127.0.0.1:8000") as client:
 ```
 
 There are deliberately no routes for shell execution, arbitrary file reading, launching executables, writing X3D modes, changing BIOS/driver state, or editing kernel parameters.
+
+## CPU capacity and before/after measurements
+
+Process-list rows keep `cpu_percent` as the traditional 100%-per-logical-CPU total and add `cpu_percent_device`, `cpu_logical_equivalents` and `cpu_capacity_logical_count`. The enclosing `cpu_capacity` lists the actual online IDs. Device share is raw process percentage divided by the count of those IDs, not the maximum ID, affinity length, physical-core count or a cgroup quota. Unknown capacity or a warm-up/invalid raw value yields null; numeric readings are not silently capped. For example 800% / 16 = 50%, with 8 logical CPU equivalents.
+
+Recording samples include `process_cpu_percent_device`, `process_logical_equivalents`, `interval_seconds`, `elapsed_seconds`, `online_cpus` and `topology_generation`, along with raw utilization and the observed task mask. The first CPU delta is null. Averages are weighted by valid observed sampling intervals; peaks are observed maxima. Summaries include valid CPU sample count, normalized/raw CPU averages, memory/thread averages and distinct observed masks.
+
+Comparison uses immutable completed recording snapshots, requires at least two valid CPU deltas per phase and matching PID/start identity, and rejects changed or unverified online capacity. Monotonic timestamps establish phase ordering when available. It reports absolute after-minus-before differences (percentage points for percentage metrics), including when the baseline is zero. There is no performance score or inferred FPS gain. Affinity changes during a phase, changed topology/scheduler information, short recordings and substantially different durations are disclosed. Comparison performs no affinity writes and works in read-only mode. The browser's measurement export includes the selected comparison alongside recordings; recordings are not retained across backend restarts.

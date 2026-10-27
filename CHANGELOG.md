@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.5.0 — 2026-10-27
+
+- Show CPU utilization as a share of visible online logical CPU capacity by default, with a selectable traditional per-CPU total and logical-CPU-equivalent explanation.
+- Add a bilingual before/after workflow, automatic comparison table, signed percentage-point differences, elapsed-time-aligned curves and comparison export.
+- Weight recording averages by actual intervals; retain observed masks, CPU capacity and topology context. Reject mismatched process identities, incomplete/insufficient recordings and changed or unverified online capacity.
+- Keep comparisons descriptive: no inferred FPS, frame-time, latency or speed improvement. Include tests and native packaged recording/comparison verification.
+
 ## 0.4.0 — 2026-10-27
 
 - Select up to 32 running processes with checkboxes, filtered select-all, selection chips and a shared affinity planner. Search and refresh preserve verified identities.
