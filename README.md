@@ -41,6 +41,12 @@ chmod u+x "$HOME/Applications/HalawaCore/HalawaCore" &&
 "$HOME/Applications/HalawaCore/HalawaCore"
 ```
 
+إذا لم يُفتح المتصفح تلقائيًا، يطبع الإصدار 0.3.2 والأحدث رابط الواجهة المحلية في الطرفية. ويمكن بدء البرنامج يدويًا بهذا الأمر، ثم نسخ الرابط الظاهر إلى المتصفح مع إبقاء الطرفية مفتوحة:
+
+```sh
+"$HOME/Applications/HalawaCore/HalawaCore" --no-browser
+```
+
 إذا كانت أدوات فك الضغط أو فتح المتصفح ناقصة فقط، اختر أمر توزيعتك ثم أعد الخطوة الأولى. تُستخدم صلاحيات الإدارة لتثبيت الأدوات فقط؛ لا تشغّل HalawaCore بصلاحيات الجذر.
 
 | التوزيعة | تثبيت الأدوات عند الحاجة |
@@ -145,6 +151,12 @@ To launch again later:
 
 ```sh
 "$HOME/Applications/HalawaCore/HalawaCore"
+```
+
+Version 0.3.2 and later print the local interface URL even if automatic browser launch fails. For manual startup, run this command, copy the printed URL into your browser and keep the terminal open:
+
+```sh
+"$HOME/Applications/HalawaCore/HalawaCore" --no-browser
 ```
 
 Only if archive tools or browser integration are missing, use the command for your distribution, then repeat step 1. Administrator privileges are only for installing tools; never run HalawaCore as root.

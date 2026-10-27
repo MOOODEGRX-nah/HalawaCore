@@ -1,19 +1,19 @@
 ## العربية
 
-- شعار M المعتمد ومظهر أحمر وأسود للموقع والبرنامج.
-- اختيار العربية أو الإنجليزية، مع حفظ لغة البرنامج محليًا.
-- المساعدة والدليل تحت الإعدادات، وعلامات استفهام تشرح الأقسام.
-- دليل تفاعلي يظهر عند التحميل، ودليل بداية داخل البرنامج.
-- ملفات تنفيذية محمولة لنظامي Windows 10/11 وLinux بمعمارية x64؛ فك الضغط وافتح البرنامج دون تثبيت بايثون.
+- إصلاح خطأ فتح المتصفح على Linux الذي قد يظهر برسالة `undefined symbol: rl_trim_arg_from_keyseq` على أنظمة مثل CachyOS.
+- عزل مسار مكتبات البرنامج عن مشغّل متصفح النظام.
+- إظهار رابط الواجهة المحلية دائمًا في الطرفية، مع استمرار البرنامج إذا تعذّر فتح المتصفح تلقائيًا.
+- تشغيل يدوي بالخيار `--no-browser` وإغلاق عادي عند استخدام Ctrl+C.
+- تضمين إرشادات Linux المحدّثة، مع بقاء القراءة فقط افتراضيًا والتأكيد والاستعادة لكل تجربة.
 
-يبدأ البرنامج بوضع القراءة فقط. أي تجربة توزيع أنوية تحتاج معاينة وتأكيدًا، وتبقى قابلة للاستعادة. لا توجد مكاسب أداء مضمونة. تتطلب نسخة Linux مكتبة glibc 2.35 أو أحدث. دعم Windows أولي، وتبقى المجموعات المتعددة وCPU Sets الصريحة للقراءة فقط. الاختبارات على خوادم Windows لا تمثل تحققًا على عتاد Windows 10/11 فعلي، وتغطية X3D تعتمد على بيانات اصطناعية. راجع ملف التحقق المرفق وتعليمات البداية.
+تتطلب نسخة Linux معمارية x86_64 ومكتبة glibc 2.35 أو أحدث ومتصفحًا مثبتًا. تُرفق تقارير التحقق مع الملفات التنفيذية. لا توجد مكاسب أداء مضمونة، وتبقى قيود Windows وبيانات X3D غير المؤكدة كما هي.
 
 ## English
 
-- Approved M logo and red-and-black styling across the website and app.
-- Arabic/English language selection with locally saved app preference.
-- Help & Guide below Settings and contextual question-mark explanations.
-- Interactive download onboarding and an in-app welcome guide.
-- Portable Windows 10/11 x64 and Linux x64 executables; extract and open without installing Python.
+- Fix Linux browser launch failures such as `undefined symbol: rl_trim_arg_from_keyseq` on newer systems including CachyOS.
+- Restore the system browser launcher's original library search path without changing the backend environment.
+- Always print the local interface URL and keep the app running when automatic browser launch fails.
+- Support manual startup with `--no-browser` and clean Ctrl+C shutdown.
+- Include updated Linux guidance while retaining default read-only mode, confirmation and restoration for affinity experiments.
 
-The app starts read-only. Optional affinity experiments require preview and confirmation and can be restored. No performance improvement is guaranteed. Linux requires glibc 2.35+. Windows support is initial; multi-group systems and explicit CPU Sets remain read-only. Windows CI checks are not physical Windows 10/11 desktop validation, and X3D coverage uses synthetic fixtures. Read the included verification report and startup guide.
+Linux requires x86_64, glibc 2.35+ and an installed browser. Verification reports are included with executable archives. Performance gains are not guaranteed. Existing Windows restrictions and unverified X3D data remain explicit.

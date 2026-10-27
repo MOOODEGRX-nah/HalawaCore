@@ -1,5 +1,13 @@
 # Validation — HalawaCore
 
+## 0.3.2 Linux browser launch regression — 2026-10-27
+
+The user's exact `/bin/sh: undefined symbol: rl_trim_arg_from_keyseq` failure was reproduced by launching the local system shell with the previously published executable's bundled readline/ncurses libraries. The same shell exits successfully with system libraries.
+
+The launcher restores `LD_LIBRARY_PATH_ORIG` only in the external Linux browser process, or removes the bundled library path when no original was present. The backend and its bundled self-test child keep their own environment. The mechanism follows [PyInstaller's external-program guidance](https://pyinstaller.org/en/stable/common-issues-and-pitfalls.html#launching-external-programs-from-the-frozen-application).
+
+New regression coverage checks parent-environment preservation, missing/failing openers, a packaged system-shell opener, manual fallback with a live read-only API, `--no-browser` URL output and graceful Ctrl+C. The browser fixture is owned test code; no user's browser or existing process affinity is controlled by these checks.
+
 ## Linux download instructions — 2026-10-27
 
 - Portable extraction/permission/launch commands were exercised against an owned temporary archive and stub executable, including Arabic/spaced paths and subsequent launches.

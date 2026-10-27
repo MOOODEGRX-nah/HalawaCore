@@ -1,8 +1,13 @@
-HalawaCore 0.3.1 — العربية
+HalawaCore 0.3.2 — العربية
 
 هذه نسخة محمولة؛ لا تحتاج تثبيت بايثون أو كتابة أوامر.
 Windows 10 / 11 بمعمارية x64: فك ضغط الملف وافتح HalawaCore.exe.
 Linux بمعمارية x64: فك الضغط وافتح HalawaCore من مدير الملفات. إذا طُلب إذن التنفيذ، راجع مصدر الملف ثم اسمح به. لا تشغّل البرنامج بصلاحيات الجذر. تتطلب النسخة المنشورة glibc 2.35 أو أحدث.
+
+إذا تعذّر فتح المتصفح، يطبع البرنامج رابط الواجهة المحلية في الطرفية ويستمر في العمل.
+من الطرفية داخل مجلد الملف التنفيذي يمكنك تشغيله يدويًا:
+./HalawaCore --no-browser
+انسخ الرابط المطبوع إلى المتصفح، واترك الطرفية مفتوحة.
 
 تفتح الواجهة المحلية تلقائيًا في المتصفح. اختر العربية أو الإنجليزية من محدد اللغة، ويُحفظ الاختيار محليًا.
 ابدأ بلوحة التحكم وخريطة الأنوية في وضع القراءة فقط. اختر العملية الفعلية وسجّل قياسًا أساسيًا قبل التجربة.
@@ -20,7 +25,7 @@ Linux بمعمارية x64: فك الضغط وافتح HalawaCore من مدير 
 ----------------------------------------
 English
 
-HalawaCore 0.3.1 — portable desktop application
+HalawaCore 0.3.2 — portable desktop application
 
 No Python installation or terminal commands are needed for this executable release.
 
@@ -32,6 +37,11 @@ Extract the tar.gz archive. Open the HalawaCore executable in your file manager.
 If your desktop asks whether to allow execution, review that the file is from this project's release.
 Do not use sudo. Native GitHub Actions Linux releases target glibc 2.35+.
 Locally built Linux binaries may require the builder's newer glibc version; check release notes.
+
+If automatic browser launch fails, the app prints its local URL and remains running.
+From a terminal inside the extracted executable folder, use:
+./HalawaCore --no-browser
+Copy the printed URL into your browser and keep the terminal open.
 
 Choose Arabic or English from the language selector; the app saves your choice locally.
 Open Help & Guide below Settings or use the ? buttons beside sections.

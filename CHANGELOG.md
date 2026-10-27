@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.2 — 2026-10-27
+
+- Restore the original Linux library search path only for the external browser launcher, fixing bundled readline conflicts on newer systems such as CachyOS.
+- Always print the local interface URL; browser launch failures keep the local backend available for manual access.
+- Make --no-browser a usable manual-start mode and handle Ctrl+C without an unhandled PyInstaller traceback.
+- Add packaged browser-launch, failed-launch, manual-mode and interrupt regression checks.
+
 ## Documentation — 2026-10-27
 
 - Added copyable Linux extraction, execution-permission and launch commands to the download guide.

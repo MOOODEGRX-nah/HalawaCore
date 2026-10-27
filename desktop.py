@@ -6,6 +6,7 @@ import json
 import logging
 import os
 import platform
+import shutil
 import socket
 import subprocess
 import sys
@@ -14,6 +15,33 @@ import time
 import urllib.request
 import webbrowser
 from pathlib import Path
+
+
+def system_browser_environment():
+    """Restore the launcher's library path only in the external browser process."""
+    environment=os.environ.copy()
+    if sys.platform.startswith('linux') and getattr(sys,'frozen',False):
+        original=environment.get('LD_LIBRARY_PATH_ORIG')
+        if original is None:
+            environment.pop('LD_LIBRARY_PATH',None)
+        else:
+            environment['LD_LIBRARY_PATH']=original
+    return environment
+
+
+def open_local_browser(url):
+    if not sys.platform.startswith('linux'):
+        try:return webbrowser.open(url)
+        except (OSError,webbrowser.Error):return False
+    environment=system_browser_environment()
+    opener=shutil.which('xdg-open',path=environment.get('PATH'))
+    if opener is None:return False
+    try:
+        process=subprocess.Popen([opener,url],env=environment,stdin=subprocess.DEVNULL,
+            stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,start_new_session=True)
+        try:return process.wait(timeout=5)==0
+        except subprocess.TimeoutExpired:return True
+    except OSError:return False
 
 
 def storage_directory():
@@ -64,7 +92,7 @@ def self_test(url):
 
 def run():
     parser=argparse.ArgumentParser()
-    parser.add_argument('--no-browser',action='store_true',help='For automated verification only')
+    parser.add_argument('--no-browser',action='store_true',help='Print the local interface URL without opening a browser')
     parser.add_argument('--self-test',action='store_true',help='Verify packaged API using an owned disposable child')
     parser.add_argument('--self-test-file',help='Write the self-test JSON report here')
     parser.add_argument('--test-child',action='store_true',help=argparse.SUPPRESS)
@@ -94,13 +122,17 @@ def run():
             else:raise RuntimeError('Local backend startup timed out.')
             if args.self_test:
                 report.update(self_test(url));server.should_exit=True
-            elif not args.no_browser:
-                if not webbrowser.open(url):
-                    raise RuntimeError(f'Open this address in your browser: {url}')
+            else:
+                if sys.stdout:print(f'HalawaCore: {url}',flush=True)
+                if not args.no_browser and not open_local_browser(url):
+                    logging.warning('Browser could not be opened. Open this local address manually: %s',url)
+                    if sys.stderr:print(f'Open this address in your browser: {url}',file=sys.stderr,flush=True)
         except Exception as exc:
             errors.append(str(exc));server.should_exit=True
     worker=threading.Thread(target=ready,daemon=True);worker.start()
-    try:server.run(sockets=[sock])
+    try:
+        try:server.run(sockets=[sock])
+        except KeyboardInterrupt:pass
     finally:sock.close();worker.join(timeout=15)
     if errors:report.update(error='; '.join(errors))
     if args.self_test_file:Path(args.self_test_file).write_text(json.dumps(report,indent=2))

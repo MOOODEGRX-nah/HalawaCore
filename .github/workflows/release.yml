@@ -31,7 +31,7 @@ jobs:
         run: python -m pytest -q
       - name: Windows topology fixtures
         if: runner.os == 'Windows'
-        run: python -m pytest -q tests/test_windows.py
+        run: python -m pytest -q tests/test_windows.py tests/test_desktop_launch.py
       - name: Build executable
         run: python build_desktop.py
       - name: Verify Linux executable
@@ -39,6 +39,9 @@ jobs:
         env:
           HALAWACORE_DATA_DIR: ${{ runner.temp }}/halawacore-test
         run: ./dist/desktop/HalawaCore --self-test --self-test-file dist/self-test-Linux.json
+      - name: Verify Linux browser launch and manual fallback
+        if: runner.os == 'Linux'
+        run: python tests/verify_packaged_browser.py dist/desktop/HalawaCore
       - name: Verify Windows executable
         if: runner.os == 'Windows'
         env:
