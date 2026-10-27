@@ -15,6 +15,7 @@ import time
 import urllib.request
 import webbrowser
 from pathlib import Path
+from backend.app_version import VERSION
 
 
 def system_browser_environment():
@@ -114,11 +115,20 @@ def self_test(url):
 
 def run():
     parser=argparse.ArgumentParser()
+    parser.add_argument('--version',action='version',version=f'HalawaCore {VERSION}')
+    parser.add_argument('--version-file',help=argparse.SUPPRESS)
+    parser.add_argument('--finish-update',help=argparse.SUPPRESS)
     parser.add_argument('--no-browser',action='store_true',help='Print the local interface URL without opening a browser')
     parser.add_argument('--self-test',action='store_true',help='Verify packaged API using an owned disposable child')
     parser.add_argument('--self-test-file',help='Write the self-test JSON report here')
     parser.add_argument('--test-child',action='store_true',help=argparse.SUPPRESS)
     args=parser.parse_args()
+    if args.version_file:
+        from backend.updater import atomic_json
+        atomic_json(args.version_file,{'application':'HalawaCore','version':VERSION});return 0
+    if args.finish_update:
+        from backend.updater import finish_windows_update
+        return finish_windows_update(args.finish_update)
     if args.test_child:
         time.sleep(90);return 0
     if hasattr(os,'geteuid') and os.geteuid()==0:
@@ -131,7 +141,8 @@ def run():
     sock=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
     sock.bind(('127.0.0.1',0));sock.listen(128)
     port=sock.getsockname()[1];url=f'http://127.0.0.1:{port}'
-    config=uvicorn.Config(create_app(data_dir=data,shutdown=lambda:setattr(server,'should_exit',True)),
+    config=uvicorn.Config(create_app(data_dir=data,shutdown=lambda:setattr(server,'should_exit',True),
+        update_executable=sys.executable if getattr(sys,'frozen',False) else None),
         host='127.0.0.1',port=port,workers=1,access_log=False,log_config=None,loop='asyncio',http='h11',ws='none')
     server=uvicorn.Server(config)
     report={};errors=[]

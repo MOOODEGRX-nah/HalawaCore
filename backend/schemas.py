@@ -65,6 +65,19 @@ class Preferences(Input):
     language: Literal['ar', 'en']
 
 
+class UpdateInstall(Input):
+    job_id: Annotated[str, Field(pattern=r'^[0-9a-f]{32}$')]
+    confirmed: StrictBool
+
+
+class UpdateRestart(Input):
+    confirmed: StrictBool
+
+
+class UpdateCheck(Input):
+    pass
+
+
 class TopologyResponse(BaseModel):
     model_config = ConfigDict(extra='allow')
     cpu_model: str

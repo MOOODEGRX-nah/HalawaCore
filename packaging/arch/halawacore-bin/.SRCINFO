@@ -9,6 +9,7 @@ pkgbase = halawacore-bin
 	depends = zlib
 	depends = xdg-utils
 	depends = hicolor-icon-theme
+	depends = polkit
 	provides = halawacore=0.5.0
 	conflicts = halawacore
 	options = !strip

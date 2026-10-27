@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.6.0 — 2026-10-27
+
+- Add explicit in-app update checks, verified downloads, release notes, installation confirmation and restart in Settings, with Arabic/English guidance.
+- Update writable portable Linux/Windows copies with backups and rollback on replacement errors. Windows uses a verified staged helper that waits for the old process identity to exit.
+- Use system authorization and pacman for Arch-managed copies; publish a native Arch package alongside the portable releases.
+- Restrict updates to fixed-repository stable assets with a GitHub SHA-256 digest, expected size, safe archive contents and executable/package version checks. No background network checks or hardware uploads.
+- Block installation/restart during recording or unrestored affinity experiments. Preserve persistent user data and request export of session-only measurements.
+
 ## 0.5.0 — 2026-10-27
 
 - Show CPU utilization as a share of visible online logical CPU capacity by default, with a selectable traditional per-CPU total and logical-CPU-equivalent explanation.

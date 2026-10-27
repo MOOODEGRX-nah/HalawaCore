@@ -20,7 +20,9 @@ from .experiment_manager import ExperimentManager
 from .process_manager import ProcessManager
 from .profile_manager import ProfileManager
 from .recommendation_engine import recommend
-from .schemas import Apply, Preview, Profile, Recommendation, Recording, Comparison, Restore, Settings, Preferences, TopologyResponse
+from .schemas import Apply, Preview, Profile, Recommendation, Recording, Comparison, Restore, Settings, Preferences, UpdateInstall, UpdateRestart, UpdateCheck, TopologyResponse
+from .app_version import VERSION
+from .updater import Updater
 from .measurement_summary import cpu_capacity
 from .security import LocalSecurity
 from .task_control import LinuxTaskControl, WindowsTaskControl
@@ -28,7 +30,7 @@ from .task_control import LinuxTaskControl, WindowsTaskControl
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def create_app(data_dir=None, reader=None, processes=None, control=None, metrics_factory=None, shutdown=None):
+def create_app(data_dir=None, reader=None, processes=None, control=None, metrics_factory=None, shutdown=None, update_executable=None, updater=None):
     token = secrets.token_urlsafe(40)
     data_dir = Path(data_dir or os.environ.get('HALAWACORE_DATA_DIR', str(ROOT / 'data')))
     if platform.system() == 'Windows' and reader is None:
@@ -52,6 +54,7 @@ def create_app(data_dir=None, reader=None, processes=None, control=None, metrics
     metrics = metrics_factory()
     affinity = AffinityManager(processes, topology, data_dir, control)
     lab = ExperimentManager(processes, metrics_factory(), control, topology)
+    updates = updater or Updater(data_dir, update_executable, shutdown)
     profiles = ProfileManager(data_dir)
     preferences = {'language': None}
     preferences_path = data_dir / 'preferences.json'
@@ -71,10 +74,11 @@ def create_app(data_dir=None, reader=None, processes=None, control=None, metrics
             if row['status'] != 'restored':
                 affinity.restore(ident)
 
-    app = FastAPI(title='HalawaCore', version='0.5.0', lifespan=lifespan, docs_url=None, redoc_url=None)
+    app = FastAPI(title='HalawaCore', version=VERSION, lifespan=lifespan, docs_url=None, redoc_url=None)
     app.add_middleware(LocalSecurity, token=token)
     app.state.affinity, app.state.processes, app.state.lab = affinity, processes, lab
     app.state.topology = topology
+    app.state.updates = updates
 
     @app.exception_handler(HalawaCoreError)
     async def known_error(request, exc):
@@ -91,7 +95,7 @@ def create_app(data_dir=None, reader=None, processes=None, control=None, metrics
 
     @app.get('/api/session')
     def session():
-        return {'token': token, 'settings': settings, 'preferences': preferences, 'desktop': shutdown is not None, 'version': '0.5.0'}
+        return {'token': token, 'settings': settings, 'preferences': preferences, 'desktop': shutdown is not None, 'version': VERSION}
 
     @app.get('/api/health')
     def health():
@@ -157,7 +161,10 @@ def create_app(data_dir=None, reader=None, processes=None, control=None, metrics
 
     @app.post('/api/affinity/apply')
     def apply(body: Apply):
-        return affinity.apply(body.preview_id, body.confirmed)
+        with affinity.lock:
+            if updates.snapshot()['write_blocked']:
+                raise HalawaCoreError('Restart after the update before starting another experiment.', 409)
+            return affinity.apply(body.preview_id, body.confirmed)
 
     @app.post('/api/affinity/restore')
     def restore(body: Restore):
@@ -169,7 +176,10 @@ def create_app(data_dir=None, reader=None, processes=None, control=None, metrics
 
     @app.post('/api/experiments/start')
     def start(body: Recording):
-        return lab.start(body.pid, body.identity, body.phase, body.interval)
+        with affinity.lock:
+            if updates.snapshot()['write_blocked']:
+                raise HalawaCoreError('Restart after the update before starting another experiment.', 409)
+            return lab.start(body.pid, body.identity, body.phase, body.interval)
 
     @app.post('/api/experiments/stop')
     def stop():
@@ -216,10 +226,40 @@ def create_app(data_dir=None, reader=None, processes=None, control=None, metrics
     def stop_desktop():
         if shutdown is None:
             raise HalawaCoreError('Stop this development server from its terminal.', 409)
+        if updates.snapshot()['phase'] == 'installing':
+            raise HalawaCoreError('Wait for the current installation to finish before closing.', 409)
         if lab.active or any(r['status'] != 'restored' for r in affinity.records.values()):
             raise HalawaCoreError('Stop recording and restore every experiment before closing HalawaCore.', 409)
         threading.Timer(0.25, shutdown).start()
         return {'status': 'closing'}
+
+    @app.get('/api/updates')
+    def update_status():
+        return updates.snapshot()
+
+    @app.post('/api/updates/check')
+    def check_update(body: UpdateCheck):
+        return updates.check()
+
+    @app.post('/api/updates/download')
+    def download_update(body: UpdateCheck):
+        return updates.download()
+
+    def safe_to_update():
+        if lab.active or any(record['status'] != 'restored' for record in affinity.records.values()):
+            raise HalawaCoreError('Stop recording and restore every affinity experiment before updating or restarting.', 409)
+
+    @app.post('/api/updates/install')
+    def install_update(body: UpdateInstall):
+        with affinity.lock, lab.lock:
+            safe_to_update()
+            return updates.install(body.job_id, body.confirmed)
+
+    @app.post('/api/updates/restart')
+    def restart_update(body: UpdateRestart):
+        with affinity.lock, lab.lock:
+            safe_to_update()
+            return updates.restart(body.confirmed)
 
     @app.get('/')
     def index():

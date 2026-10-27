@@ -27,4 +27,7 @@ assert.equal(translateText('selected','ar'),'العمليات المحددة');
 assert.equal(translateText('CPU · device share','ar'),'المعالج · من إجمالي الجهاز');
 assert.equal(translateText('Before / after / difference','ar'),'قبل / بعد / الفرق');
 assert.equal(translateText('● Record before','ar'),'● تسجيل قبل التعديل');
+assert.equal(translateText('Application updates','ar'),'تحديث البرنامج');
+assert.equal(translateText('Check for updates','ar'),'التحقق من وجود تحديث');
+assert.equal(translateText('Confirm and install','ar'),'تأكيد التثبيت');
 console.log('Arabic/English translation contracts passed; CPU IDs and filenames preserved.');

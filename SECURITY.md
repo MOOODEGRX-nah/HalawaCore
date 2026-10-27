@@ -16,7 +16,7 @@ HalawaCore runs as the ordinary desktop user. Do not use sudo, grant capabilitie
 
 Local web requests accept only loopback Host names, require a matching Origin and a startup-generated session token for mutations, reject cross-site fetch metadata, and do not enable CORS. The frontend uses a restrictive local Content Security Policy, frame denial, no external assets and escaped process/profile text. A same-user local program is already inside the OS permission boundary; the session token is protection against hostile web pages, not authentication against a compromised local account.
 
-No inspected process environments are read. Raw command arguments are never returned; the UI exposes an executable and argument count. Runtime identification uses executable/process names and observed ancestry. No command-execution API, arbitrary-path API or privilege escalation is implemented. User-selected browser files are not uploaded or run.
+No inspected process environments are read. Raw command arguments are never returned; the UI exposes an executable and argument count. Runtime identification uses executable/process names and observed ancestry. No general command-execution or arbitrary-path API is implemented. The explicitly confirmed updater has the bounded installation exception documented below. User-selected browser files are not uploaded or run.
 
 Affinity requires an owned, identity-validated task, current online CPU membership, current-mask validation, a short-lived preview and explicit confirmation. Each attempted original mask is recorded before application. Reads verify accepted affinity. Failed operations do not kill target programs. Restoration validates both leader and task identities and reports partial results. A failed or partially restored experiment blocks overlapping changes on the same task.
 
@@ -29,3 +29,13 @@ Profiles and the local audit are created under `data/` (or the trusted launch-ti
 Keep the backend alive until experiments are restored. Graceful shutdown makes a best-effort restoration attempt. Crash recovery, boot recovery and restoration after SIGKILL are unsupported. The audit log is evidence, not an automatic recovery mechanism.
 
 For a security report, share a minimal reproduction with process names/paths, commands, exports and screenshots redacted as appropriate. Do not post a full process dump or session token in a public issue. No repository or private reporting address has been configured by this source-only delivery.
+
+## Explicit updater boundary (0.6.0)
+
+The updater is idle until requested. It uses one fixed public GitHub repository, stable numeric versions, exact asset names/paths, HTTPS with normal certificate validation and a small approved redirect-host list. GitHub metadata supplies a mandatory SHA-256; this authenticates consistency with that upstream account, not an independent developer signature. Release-account compromise remains inside that trust boundary. No hardware or process data is uploaded.
+
+Downloads have declared/actual size and time limits. Portable archives allow only the expected flat regular files and reject symlinks, hardlinks, extra paths and duplicates. Candidate version checks use private report files, including windowed Windows builds. Copies are verified again before replacement. Writable portable files are staged on the target filesystem, replaced with backups and rolled back on ordinary replacement failures; sudden power loss or OS termination is not claimed as full transactional recovery.
+
+Arch-owned executables are never directly overwritten. A fixed pacman query validates package identity/version and a standard polkit prompt runs only the package manager with the verified archive. No custom authorization rule, retained elevation, password handling, kernel/driver change or reduced signature policy is added. Managed RPM/DEB files, unsupported architectures and non-writable portable folders remain unsupported for direct replacement.
+
+Install/restart share the affinity operation lock, reject active recordings/unrestored records, and block new mutations while installing or awaiting restart. User data is outside the installation folder. Windows launches a verified staged helper using a fresh PyInstaller environment, waits for the original PID and creation identity to exit, retries image-lock release, and never kills a user process. The normal app never runs elevated. Same-user compromise remains outside the local API's threat boundary.

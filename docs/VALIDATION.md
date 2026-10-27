@@ -1,5 +1,11 @@
 # Validation — HalawaCore
 
+## 0.6.0 explicit in-app updater — 2026-10-27
+
+- 158 Linux/Python tests pass. Updater fixtures cover stable-version ordering, fixed addresses and mandatory digests, archive traversal/links, corrupted and changed files, backup/rollback, private windowed version probes, package authorization cancellation and fixed non-shell commands.
+- API checks cover no network at startup/status, CSRF, forbidden URL fields, explicit confirmation, stale jobs, active recordings/unrestored records and mutation blocking while installing. No installed application or system package is changed by tests.
+- Native bundled helper and CI package validation are recorded after publishing the immutable release.
+
 ## 0.5.0 measurement comparison and CPU display — 2026-10-27
 
 - 132 Linux/Python tests pass. New coverage verifies 800% / 16 = 50%, sparse IDs, unavailable/invalid capacity, elapsed-interval weighting, zero baselines, signed percentage-point changes, process reuse/mismatch, phase ordering, incomplete samples, changed online capacity and descriptive warnings. Comparison API checks enforce local CSRF protection and leave affinity state unchanged.

@@ -1,17 +1,19 @@
 ## العربية
 
-- عرض استخدام العملية افتراضيًا كنسبة من إجمالي المعالجات المنطقية المتصلة، مع إمكانية اختيار المجموع التقليدي. تعادل 800% استخدام 8 معالجات منطقية مكافئة، أو 50% من جهاز فيه 16 معالجًا منطقيًا متصلًا.
-- إضافة تسجيل قبل التعديل وبعده داخل مختبر الأداء، وجدول الفروق ومنحنيين بمحاذاة الزمن وتصدير المقارنة مع القياسات.
-- مقارنة متوسط الاستهلاك وذروته والذاكرة والخيوط والتوزيع المرصود، مع حساب المتوسطات حسب مدد العينات الفعلية.
-- اشتراط العملية وهوية البداية نفسيهما وقياسات مكتملة وعينتين صالحتين على الأقل لكل مرحلة. تمنع القدرة المجهولة أو المتغيرة المقارنة؛ وتظهر ملاحظات للقياسات القصيرة والتوزيع غير المستقر واختلاف المدد.
+- تحديث HalawaCore من الإعدادات: فحص الإصدار، تنزيل موثّق، عرض التغييرات، تأكيد التثبيت ثم إعادة التشغيل.
+- حزمة أصلية لـ CachyOS/Arch تُثبّت عبر نافذة صلاحيات النظام ومدير الحزم، مع بقاء البرنامج بحسابك العادي.
+- تحديث النسخ المحمولة على Linux وWindows مع نسخة `.previous` احتياطية. ينتظر مساعد Windows خروج النسخة القديمة قبل الاستبدال ويعيد فتح الجديدة.
+- التحقق من مصدر الإصدار المستقر وبصمة SHA-256 وحجم الملفات ومحتوى الأرشيف ورقم الإصدار؛ لا توجد فحوص تلقائية أو مشاركة بيانات عتاد.
+- منع التثبيت أثناء التسجيل أو قبل استعادة تجارب توزيع الأنوية. صدّر قياسات الجلسة قبل إعادة التشغيل؛ تبقى بيانات اللغة والملفات المحفوظة.
 
-لا يثبت انخفاض استخدام المعالج زيادة FPS أو تحسن زمن الإطار؛ هذه القياسات غير متاحة في هذا الإصدار. القراءة فقط والتأكيد والاستعادة تبقى كما هي. يدعم تحديد العمليات المتعدد من الإصدار السابق؛ ويسجل المختبر العملية الأولى المحددة فقط. Linux: x86_64 وglibc 2.35+ ومتصفح مثبت. قيود Windows وبيانات X3D غير المؤكدة تظل واضحة.
+يلزم تثبيت 0.6.0 مرة واحدة للنسخ الأقدم كي تظهر الميزة. تحديث نسخ المصدر أو الملفات المملوكة لمدير حزم غير مدعوم يتم من مصدرها الرسمي. SHA-256 ليست توقيعًا رقميًا مستقلًا. قيود X3D وWindows والمقارنة دون FPS تبقى واضحة. Linux: x86_64 وglibc 2.35+ ومتصفح مثبت.
 
 ## English
 
-- Default to process CPU share of all visible online logical CPUs, while retaining traditional per-CPU totals. 800% represents 8 logical CPU equivalents, or 50% on a 16-online-logical-CPU device.
-- Add before/after recording controls, automatic difference tables, elapsed-time-aligned curves and comparison export in Performance Lab.
-- Compare average/peak utilization, memory, thread counts and observed affinity. Weight averages by actual sample intervals.
-- Require the same PID/start identity, completed recordings and two valid CPU deltas per phase. Unknown/changed capacity blocks comparison; short recordings, unstable masks and unequal durations are disclosed.
+- Update HalawaCore from Settings: check, download and verify, read changes, explicitly install and restart.
+- Publish a native CachyOS/Arch package installed through the system permission dialog and package manager, while the app stays unprivileged.
+- Update writable portable Linux/Windows copies with a `.previous` backup. The Windows helper waits for the old process to exit before replacement and reopening.
+- Validate the fixed stable-release source, GitHub SHA-256, size, archive members and version. No automatic background checks or hardware uploads.
+- Reject installation during recording or unrestored affinity experiments. Export session measurements before restart; persistent language/profile data is retained.
 
-Lower CPU activity does not establish higher FPS or better frame times; those metrics remain unavailable. Read-only, confirmation and restoration safeguards are retained. Multiple-process selection remains available; the lab records the first selected process only. Linux requires x86_64, glibc 2.35+ and an installed browser. Existing Windows restrictions and unverified X3D states remain explicit.
+Older versions need a one-time installation of 0.6.0 to obtain the feature. Source checkouts and unsupported managed installations update through their official source. SHA-256 is not an independent digital signature. Existing X3D/Windows restrictions and the lack of FPS measurement remain explicit. Linux requires x86_64, glibc 2.35+ and an installed browser.

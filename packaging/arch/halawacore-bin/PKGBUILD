@@ -7,7 +7,7 @@ pkgdesc='Local CPU topology and reversible process-affinity analyzer'
 arch=('x86_64')
 url='https://github.com/MOOODEGRX-nah/HalawaCore'
 license=('MIT')
-depends=('glibc>=2.35' 'zlib' 'xdg-utils' 'hicolor-icon-theme')
+depends=('glibc>=2.35' 'zlib' 'xdg-utils' 'hicolor-icon-theme' 'polkit')
 provides=("halawacore=${pkgver}")
 conflicts=('halawacore')
 # Stripping a PyInstaller executable can damage its embedded archive.
