@@ -1,5 +1,12 @@
 # Validation — HalawaCore
 
+## Linux download instructions — 2026-10-27
+
+- Portable extraction/permission/launch commands were exercised against an owned temporary archive and stub executable, including Arabic/spaced paths and subsequent launches.
+- Missing/corrupt archives fail before launching an already extracted executable. Package installation commands were syntax-checked and reviewed against official package-manager references; they were not executed on the user's system.
+- Browser checks cover CachyOS/Fedora selection, preserved expanded sections, exact copied shell text, Arabic/English switching and the Linux download modal.
+- Instructions also cover Ubuntu/Debian/Mint and openSUSE. They do not claim physical validation on every distribution release. Existing native binary/CI coverage remains described below.
+
 ## 0.3.0 interface and language update — 2026-10-26
 
 - 87 Linux/Python tests passed, including persisted Arabic/English preference, invalid input, CSRF protection and unchanged read-only/affinity state.

@@ -24,6 +24,34 @@ HalawaCore برنامج محلي مفتوح المصدر لتحليل طوبول
 
 النسخ التنفيذية تتضمن بيئة التشغيل؛ لا تحتاج تثبيت بايثون أو كتابة أوامر. الموقع يقدّم التعريف والتحميل، بينما يعمل تحليل جهازك والتحكم الاختياري في العمليات داخل البرنامج المحلي. لا تُرفع بيانات العتاد أو العمليات تلقائيًا.
 
+### أوامر Linux: CachyOS وFedora وتوزيعات أخرى
+
+حمّل `HalawaCore-Linux-x64.tar.gz` من صفحة الإصدارات، ثم افتح الطرفية داخل المجلد الذي يحتوي الملف. لا تحتاج تثبيت بايثون للنسخة المحمولة. الأوامر التالية تفك الأرشيف داخل مجلدك الشخصي وتمنح إذن التنفيذ ثم تشغّل البرنامج:
+
+```sh
+mkdir -p "$HOME/Applications/HalawaCore" &&
+tar -xzf "./HalawaCore-Linux-x64.tar.gz" -C "$HOME/Applications/HalawaCore" &&
+chmod u+x "$HOME/Applications/HalawaCore/HalawaCore" &&
+"$HOME/Applications/HalawaCore/HalawaCore"
+```
+
+للتشغيل لاحقًا:
+
+```sh
+"$HOME/Applications/HalawaCore/HalawaCore"
+```
+
+إذا كانت أدوات فك الضغط أو فتح المتصفح ناقصة فقط، اختر أمر توزيعتك ثم أعد الخطوة الأولى. تُستخدم صلاحيات الإدارة لتثبيت الأدوات فقط؛ لا تشغّل HalawaCore بصلاحيات الجذر.
+
+| التوزيعة | تثبيت الأدوات عند الحاجة |
+| --- | --- |
+| CachyOS / Arch Linux | `sudo pacman -S --needed tar gzip xdg-utils` |
+| Fedora Workstation / KDE (DNF) | `sudo dnf install tar gzip xdg-utils` |
+| Ubuntu / Debian / Linux Mint | `sudo apt update && sudo apt install tar gzip xdg-utils` |
+| openSUSE (Zypper) | `sudo zypper install tar gzip xdg-utils` |
+
+تتطلب النسخة معمارية `x86_64` ومكتبة `glibc 2.35` أو أحدث ومتصفحًا مثبتًا. أنظمة Fedora Atomic وopenSUSE MicroOS وتوزيعات Alpine تحتاج إرشادات منفصلة؛ أوامر تثبيت الحزم أعلاه للأنظمة التقليدية. راجع [دليل Linux المفصل](docs/LINUX-START.md) أو [الدليل التفاعلي مع أزرار النسخ](https://mooodegrx-nah.github.io/HalawaCore/app.html?lang=ar#linux-commands).
+
 ### الخصائص
 
 - عرض الأنوية الفعلية، وخيوط المعالجة الشقيقة، والمقابس، وعقد الذاكرة ومجموعات كاش المستوى الثالث اعتمادًا على معلومات نظام التشغيل.
@@ -101,6 +129,34 @@ HalawaCore is a local, open-source CPU topology and affinity analyzer. Inspect p
 7. For an optional affinity experiment, deliberately enable experiments, review the affected tasks and confirm the preview. Stop recording and restore all experiments before clicking **Quit HalawaCore**. Closing the browser tab alone does not stop the local backend.
 
 Executables bundle the runtime; users do not need Python or terminal commands. The website provides information and downloads. Hardware analysis and optional process controls run in the local application. Hardware and process data is not uploaded automatically.
+
+### Linux commands: CachyOS, Fedora and other distributions
+
+Download `HalawaCore-Linux-x64.tar.gz` from Releases, then open a terminal in the folder containing it. The portable build includes Python. These commands extract into your home folder, grant execution permission and launch:
+
+```sh
+mkdir -p "$HOME/Applications/HalawaCore" &&
+tar -xzf "./HalawaCore-Linux-x64.tar.gz" -C "$HOME/Applications/HalawaCore" &&
+chmod u+x "$HOME/Applications/HalawaCore/HalawaCore" &&
+"$HOME/Applications/HalawaCore/HalawaCore"
+```
+
+To launch again later:
+
+```sh
+"$HOME/Applications/HalawaCore/HalawaCore"
+```
+
+Only if archive tools or browser integration are missing, use the command for your distribution, then repeat step 1. Administrator privileges are only for installing tools; never run HalawaCore as root.
+
+| Distribution | Install tools only when needed |
+| --- | --- |
+| CachyOS / Arch Linux | `sudo pacman -S --needed tar gzip xdg-utils` |
+| Fedora Workstation / KDE (DNF) | `sudo dnf install tar gzip xdg-utils` |
+| Ubuntu / Debian / Linux Mint | `sudo apt update && sudo apt install tar gzip xdg-utils` |
+| openSUSE (Zypper) | `sudo zypper install tar gzip xdg-utils` |
+
+The executable requires `x86_64`, `glibc 2.35+` and an installed browser. Fedora Atomic, openSUSE MicroOS and Alpine need separate guidance; package commands above target conventional mutable systems. See the [detailed Linux guide](docs/LINUX-START.md) or [interactive guide with copy buttons](https://mooodegrx-nah.github.io/HalawaCore/app.html?lang=en#linux-commands).
 
 ### Features
 

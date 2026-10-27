@@ -1,5 +1,11 @@
 # Changelog
 
+## Documentation — 2026-10-27
+
+- Added copyable Linux extraction, execution-permission and launch commands to the download guide.
+- Added CachyOS/Arch, Fedora, Ubuntu/Debian/Mint and openSUSE package-tool guidance and explicit compatibility limits.
+- Added a bilingual Linux startup document and README instructions.
+
 ## 0.3.1 — 2026-10-27
 
 - Keep keyboard skip links accessible without creating horizontal overflow in RTL/LTR layouts.

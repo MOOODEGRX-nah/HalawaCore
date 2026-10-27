@@ -1,6 +1,7 @@
 import {initLanguage,localize} from './i18n.js';
 import {initDownloadGuide} from './download-guide.js';
-initLanguage();initDownloadGuide();
+import {initLinuxGuides} from './linux-guide.js';
+initLanguage();initLinuxGuides();initDownloadGuide();
 const repository='MOOODEGRX-nah/HalawaCore';
 const status=document.querySelector('#release-status');
 if(status){

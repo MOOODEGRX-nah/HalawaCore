@@ -1,7 +1,9 @@
 import {L,getLanguage,localize} from './i18n.js';
+import {renderLinuxGuide} from './linux-guide.js';
 const escape=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let dialog,selection=null,step=0;
-const remembered=platform=>localStorage.getItem(`halawacore-download-guide-v3-${platform}`)==='read';
+const guideKey=platform=>`halawacore-download-guide-${platform==='linux'?'v4':'v3'}-${platform}`;
+const remembered=platform=>localStorage.getItem(guideKey(platform))==='read';
 function content(){
   const windows=selection.platform==='windows',os=windows?'Windows':'Linux';
   const steps=[
@@ -25,7 +27,9 @@ function render(){
   dialog.querySelector('#download-guide-close').textContent=L('إغلاق','Close');
   dialog.querySelector('#download-guide-progress').setAttribute('aria-label',L('خطوات دليل التحميل','Download guide steps'));
   dialog.querySelector('#download-guide-step').textContent=L(`الخطوة ${step+1} من 4`,`Step ${step+1} of 4`);
-  dialog.querySelector('#download-guide-content').innerHTML=`<h3>${escape(data.title)}</h3><p>${escape(data.description)}</p><div class="guide-note">${escape(data.note)}</div>`;
+  const body=dialog.querySelector('#download-guide-content');
+  if(selection.platform==='linux'&&step===1){body.innerHTML='<div data-linux-guide></div>';renderLinuxGuide(body.firstElementChild);}
+  else body.innerHTML=`<h3>${escape(data.title)}</h3><p>${escape(data.description)}</p><div class="guide-note">${escape(data.note)}</div>`;
   dialog.querySelector('#download-guide-progress').innerHTML=Array.from({length:4},(_,i)=>`<li ${i===step?'aria-current="step"':''} class="${i<=step?'active':''}"><span>${i+1}</span></li>`).join('');
   const back=dialog.querySelector('#download-guide-back');back.textContent=L('السابق','Back');back.hidden=step===0;
   const next=dialog.querySelector('#download-guide-next');next.textContent=L('التالي','Next');next.hidden=step===3;
@@ -50,7 +54,7 @@ export function initDownloadGuide(){
   dialog.querySelector('#download-guide-back').onclick=()=>{step--;render();};
   dialog.querySelector('#download-guide-next').onclick=()=>{step++;render();};
   dialog.querySelector('#download-guide-file').onclick=()=>{
-    if(dialog.querySelector('#download-guide-remember').checked)localStorage.setItem(`halawacore-download-guide-v3-${selection.platform}`,'read');
+    if(dialog.querySelector('#download-guide-remember').checked)localStorage.setItem(guideKey(selection.platform),'read');
     dialog.close();
   };
   document.addEventListener('click',event=>{

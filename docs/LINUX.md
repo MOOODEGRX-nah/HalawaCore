@@ -5,7 +5,11 @@ A local Linux CPU topology and process-affinity analyzer. FastAPI serves a vanil
 HalawaCore reads the running kernel. Example processor data lives only in test fixtures. Missing information stays missing.
 
 
-## Install and run
+## Portable desktop release
+
+For CachyOS, Fedora, Ubuntu/Debian and openSUSE extraction/start commands, see [the bilingual portable Linux guide](LINUX-START.md). The ready-made executable bundles Python. The following section is for source development.
+
+## Install and run from source
 
 Python 3.10 or later and Linux are required. Python 3.14 was used for this release's tests. Start as your normal desktop user, outside a container if you want to inspect desktop processes.
 
